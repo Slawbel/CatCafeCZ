@@ -16,12 +16,13 @@ class CellTableViewControllerForViewController: UITableViewCell {
         cellName.textAlignment = .left
         cellName.numberOfLines = 10
         cellName.textColor = .black
-        cellName.text = "cell"
+        
         
         contentView.addSubview(cellName)
         
         cellName.snp.makeConstraints { make in
-            make.leading.top.bottom.equalToSuperview()
+            make.leading.top.bottom.trailing.equalToSuperview().inset(10)
+     
         }
         
     }
