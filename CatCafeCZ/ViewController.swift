@@ -23,7 +23,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.register(CellTableViewControllerForViewController.self, forCellReuseIdentifier: "CellTableViewControllerForViewController")
         tableView.backgroundColor = .gray
         
-        self.navigationItem.title = "First Screen"
+        self.navigationItem.title = "Bon appetit"
 
     
         view.addSubview(tableView)
@@ -46,13 +46,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             cell = CellTableViewControllerForViewController.init(style: .default, reuseIdentifier: "CellTableViewControllerForViewController")
         }
         cell?.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        cell?.setup(text: self.restaurantNames[indexPath.row] )
+        cell?.setupTitle(text: self.restaurantNames[indexPath.row] )
+        cell?.cellImage.image = UIImage(named: restaurantNames[indexPath.row])
         cell?.backgroundColor = .white
         return cell!
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 40
+        return 120
     }
 
 }
