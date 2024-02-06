@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A268CC612B719261004A7DEA /* ChakraPetch-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A268CC602B71803A004A7DEA /* ChakraPetch-Regular.ttf */; };
 		A2C271E02B6BBC23009E40C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C271DF2B6BBC23009E40C6 /* AppDelegate.swift */; };
 		A2C271E42B6BBC23009E40C6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C271E32B6BBC23009E40C6 /* ViewController.swift */; };
 		A2C271EA2B6BBC23009E40C6 /* CatCafeCZ.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A2C271E82B6BBC23009E40C6 /* CatCafeCZ.xcdatamodeld */; };
 		A2C271EC2B6BBC25009E40C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2C271EB2B6BBC25009E40C6 /* Assets.xcassets */; };
-		A2C271EF2B6BBC25009E40C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A2C271ED2B6BBC25009E40C6 /* LaunchScreen.storyboard */; };
 		A2C271FA2B6BBC25009E40C6 /* CatCafeCZTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C271F92B6BBC25009E40C6 /* CatCafeCZTests.swift */; };
 		A2C272042B6BBC25009E40C6 /* CatCafeCZUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C272032B6BBC25009E40C6 /* CatCafeCZUITests.swift */; };
 		A2C272062B6BBC25009E40C6 /* CatCafeCZUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C272052B6BBC25009E40C6 /* CatCafeCZUITestsLaunchTests.swift */; };
@@ -38,12 +38,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A268CC602B71803A004A7DEA /* ChakraPetch-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ChakraPetch-Regular.ttf"; path = "CatCafeCZ/Fonts/ChakraPetch-Regular.ttf"; sourceTree = SOURCE_ROOT; };
 		A2C271DC2B6BBC23009E40C6 /* CatCafeCZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatCafeCZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2C271DF2B6BBC23009E40C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A2C271E32B6BBC23009E40C6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A2C271E92B6BBC23009E40C6 /* CatCafeCZ.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CatCafeCZ.xcdatamodel; sourceTree = "<group>"; };
 		A2C271EB2B6BBC25009E40C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A2C271EE2B6BBC25009E40C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A2C271F02B6BBC25009E40C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A2C271F52B6BBC25009E40C6 /* CatCafeCZTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CatCafeCZTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2C271F92B6BBC25009E40C6 /* CatCafeCZTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatCafeCZTests.swift; sourceTree = "<group>"; };
@@ -80,9 +80,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A268CC5F2B71801E004A7DEA /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				A268CC602B71803A004A7DEA /* ChakraPetch-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		A2C271D32B6BBC23009E40C6 = {
 			isa = PBXGroup;
 			children = (
+				A268CC5F2B71801E004A7DEA /* Fonts */,
 				A2C272122B6BBFB9009E40C6 /* .gitignore */,
 				A2C271DE2B6BBC23009E40C6 /* CatCafeCZ */,
 				A2C271F82B6BBC25009E40C6 /* CatCafeCZTests */,
@@ -106,7 +115,6 @@
 			isa = PBXGroup;
 			children = (
 				A2C271DF2B6BBC23009E40C6 /* AppDelegate.swift */,
-				A2C271ED2B6BBC25009E40C6 /* LaunchScreen.storyboard */,
 				A2C271EB2B6BBC25009E40C6 /* Assets.xcassets */,
 				A2C271F02B6BBC25009E40C6 /* Info.plist */,
 				A2C271E82B6BBC23009E40C6 /* CatCafeCZ.xcdatamodeld */,
@@ -250,9 +258,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A2C271EF2B6BBC25009E40C6 /* LaunchScreen.storyboard in Resources */,
 				A2C272132B6BBFB9009E40C6 /* .gitignore in Resources */,
 				A2C271EC2B6BBC25009E40C6 /* Assets.xcassets in Resources */,
+				A268CC612B719261004A7DEA /* ChakraPetch-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,17 +323,6 @@
 			targetProxy = A2C272002B6BBC25009E40C6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		A2C271ED2B6BBC25009E40C6 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A2C271EE2B6BBC25009E40C6 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		A2C272072B6BBC25009E40C6 /* Debug */ = {

@@ -2,12 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleSignature</key>
-	<string>APPL</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>ChakraPetch-Regular.ttf</string>
+	</array>
 	<key>UILaunchScreen</key>
 	<dict>
-		<key>UIColorName</key>
-		<string></string>
+		<key>UIImageName</key>
+		<string>LaunchScreen</string>
 	</dict>
+	<key>CFBundleSignature</key>
+	<string>APPL</string>
 </dict>
 </plist>

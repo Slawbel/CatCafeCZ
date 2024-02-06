@@ -17,16 +17,18 @@ class CellTableViewControllerForViewController: UITableViewCell {
         cellName.textAlignment = .left
         cellName.numberOfLines = 10
         cellName.textColor = .black
+
         
         cellImage.contentMode = .scaleAspectFill
         cellImage.clipsToBounds = true
+    
         
         
         contentView.addSubview(cellImage)
         contentView.addSubview(cellName)
         
         cellImage.snp.makeConstraints{ make in
-            make.leading.top.equalToSuperview().inset(10)
+            make.leading.top.equalToSuperview()
             make.width.height.equalTo(100)
         }
         

@@ -21,10 +21,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(CellTableViewControllerForViewController.self, forCellReuseIdentifier: "CellTableViewControllerForViewController")
-        tableView.backgroundColor = .gray
+        tableView.backgroundColor = .black
+       
         
-        self.navigationItem.title = "Bon appetit"
-
+        //self.navigationController?.changeTitleStyle()
+        self.navigationItem.title = "Select your meal"
+        self.navigationController?.navigationBar.backgroundColor = .orange
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "ChakraPetch-Regular", size: 20)!]
+        self.navigationController?.navigationBar.layer.cornerRadius = 20
+        
     
         view.addSubview(tableView)
         
@@ -35,6 +40,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
 
+    // MARK: - tableView functions
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.restaurantNames.count
@@ -46,14 +52,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             cell = CellTableViewControllerForViewController.init(style: .default, reuseIdentifier: "CellTableViewControllerForViewController")
         }
         cell?.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        
         cell?.setupTitle(text: self.restaurantNames[indexPath.row] )
+        
         cell?.cellImage.image = UIImage(named: restaurantNames[indexPath.row])
+        cell?.cellImage.layer.cornerRadius = 100 / 2
+        cell?.cellImage.clipsToBounds = true
+        
         cell?.backgroundColor = .white
+        cell?.layer.cornerRadius = 50
         return cell!
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return 100
     }
 
 }
