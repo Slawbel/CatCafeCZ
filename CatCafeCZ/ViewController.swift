@@ -11,8 +11,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
    
     private var tableView = UITableView()
     
-    
-    private var restaurantNames = ["Isai Ramen", "Na kopečku", "Vavřinové lázně"]
+    private let places = Cafe.getCafe()
     
     
     override func viewDidLoad() {
@@ -29,6 +28,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.navigationController?.navigationBar.backgroundColor = .orange
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "ChakraPetch-Regular", size: 20)!]
         self.navigationController?.navigationBar.layer.cornerRadius = 20
+
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addTapped))
+        
         
     
         view.addSubview(tableView)
@@ -43,7 +46,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK: - tableView functions
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.restaurantNames.count
+        return self.places.count
     }
     
     func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -53,9 +56,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         cell?.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         
-        cell?.setupTitle(text: self.restaurantNames[indexPath.row] )
-        
-        cell?.cellImage.image = UIImage(named: restaurantNames[indexPath.row])
+        cell?.setupTitle(textName: self.places[indexPath.row].name )
+        cell?.setupLocation(textLocation: self.places[indexPath.row].location)
+        cell?.setupType(textType: self.places[indexPath.row].type)
+        cell?.cellImage.image = UIImage(named: places[indexPath.row].image)
         cell?.cellImage.layer.cornerRadius = 100 / 2
         cell?.cellImage.clipsToBounds = true
         
@@ -67,6 +71,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
-
+    
+    @objc private func addTapped() {
+        let addingNewPlace = AddingNewPlace()
+        self.navigationController?.modalTransitionStyle = .crossDissolve
+        self.navigationController?.pushViewController(addingNewPlace, animated: true)
+        
+        
+    }
 }
 
+extension UINavigationController {
+    func setupNavigationBarTextColor() {
+        self.navigationBar.tintColor = .black
+    }
+}

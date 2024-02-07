@@ -10,6 +10,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let viewController = ViewController()
         let nav = UINavigationController(rootViewController: viewController)
+        
+        nav.setupNavigationBarTextColor()
+        
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
         

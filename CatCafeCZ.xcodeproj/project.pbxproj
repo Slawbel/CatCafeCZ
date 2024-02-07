@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		A268CC612B719261004A7DEA /* ChakraPetch-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A268CC602B71803A004A7DEA /* ChakraPetch-Regular.ttf */; };
+		A268CC662B73AB06004A7DEA /* CafeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A268CC652B73AB06004A7DEA /* CafeModel.swift */; };
+		A268CC682B73C1DD004A7DEA /* AddingNewPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A268CC672B73C1DD004A7DEA /* AddingNewPlace.swift */; };
+		A268CC6A2B73ED16004A7DEA /* CellForAddingNewPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A268CC692B73ED16004A7DEA /* CellForAddingNewPlace.swift */; };
 		A2C271E02B6BBC23009E40C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C271DF2B6BBC23009E40C6 /* AppDelegate.swift */; };
 		A2C271E42B6BBC23009E40C6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C271E32B6BBC23009E40C6 /* ViewController.swift */; };
 		A2C271EA2B6BBC23009E40C6 /* CatCafeCZ.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A2C271E82B6BBC23009E40C6 /* CatCafeCZ.xcdatamodeld */; };
@@ -39,6 +42,9 @@
 
 /* Begin PBXFileReference section */
 		A268CC602B71803A004A7DEA /* ChakraPetch-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ChakraPetch-Regular.ttf"; path = "CatCafeCZ/Fonts/ChakraPetch-Regular.ttf"; sourceTree = SOURCE_ROOT; };
+		A268CC652B73AB06004A7DEA /* CafeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeModel.swift; sourceTree = "<group>"; };
+		A268CC672B73C1DD004A7DEA /* AddingNewPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingNewPlace.swift; sourceTree = "<group>"; };
+		A268CC692B73ED16004A7DEA /* CellForAddingNewPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForAddingNewPlace.swift; sourceTree = "<group>"; };
 		A2C271DC2B6BBC23009E40C6 /* CatCafeCZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatCafeCZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2C271DF2B6BBC23009E40C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A2C271E32B6BBC23009E40C6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -120,6 +126,9 @@
 				A2C271E82B6BBC23009E40C6 /* CatCafeCZ.xcdatamodeld */,
 				A2C271E32B6BBC23009E40C6 /* ViewController.swift */,
 				A2C272182B6BEA7D009E40C6 /* CellTableViewControllerForViewController.swift */,
+				A268CC652B73AB06004A7DEA /* CafeModel.swift */,
+				A268CC672B73C1DD004A7DEA /* AddingNewPlace.swift */,
+				A268CC692B73ED16004A7DEA /* CellForAddingNewPlace.swift */,
 			);
 			path = CatCafeCZ;
 			sourceTree = "<group>";
@@ -288,7 +297,10 @@
 				A2C271E42B6BBC23009E40C6 /* ViewController.swift in Sources */,
 				A2C271E02B6BBC23009E40C6 /* AppDelegate.swift in Sources */,
 				A2C272192B6BEA7D009E40C6 /* CellTableViewControllerForViewController.swift in Sources */,
+				A268CC682B73C1DD004A7DEA /* AddingNewPlace.swift in Sources */,
 				A2C271EA2B6BBC23009E40C6 /* CatCafeCZ.xcdatamodeld in Sources */,
+				A268CC662B73AB06004A7DEA /* CafeModel.swift in Sources */,
+				A268CC6A2B73ED16004A7DEA /* CellForAddingNewPlace.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
