@@ -12,10 +12,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     private var tableView = UITableView()
     
     private let places = Cafe.getCafe()
+    private let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        backgroundImage.image = UIImage(named: "Photo")
+        backgroundImage.contentMode = .scaleAspectFill
+        
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -33,8 +38,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addTapped))
         
         
-    
+        view.addSubview(backgroundImage)
         view.addSubview(tableView)
+        view.sendSubviewToBack(backgroundImage)
         
         tableView.snp.makeConstraints { make in
             make.leading.bottom.trailing.equalTo(view)

@@ -1,14 +1,16 @@
 import UIKit
 import SnapKit
 
-
+protocol AddingNewPlaceDelegate: AnyObject {
+    func setupImageByImage(image: UIImage)
+}
 
 class CellForAddingNewPlace: UITableViewCell {
     private var cellImage = UIImageView()
     
     private var addNameStackView = UIStackView()
     private var addNameLabel = UILabel()
-    private var addNameTF = UITextField()
+    var addNameTF = UITextField()
     
     private var addLocationStackView = UIStackView()
     private var addLocationLabel = UILabel()
@@ -17,6 +19,7 @@ class CellForAddingNewPlace: UITableViewCell {
     private var addTypeStackView = UIStackView()
     private var addTypeLabel = UILabel()
     private var addTypeTF = UITextField()
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -28,6 +31,7 @@ class CellForAddingNewPlace: UITableViewCell {
         
         cellImage.contentMode = .center
 
+
         contentView.addSubview(cellImage)
 
         
@@ -37,8 +41,14 @@ class CellForAddingNewPlace: UITableViewCell {
     }
     
     
-    func setupImage (text: String?) {
+    func setupImageByText (text: String?) {
         cellImage.image = UIImage(named: text!)
+    }
+    
+    func setupImageByImage (image: UIImage) {
+        cellImage.contentMode = .scaleAspectFill
+        cellImage.clipsToBounds = true
+        cellImage.image = image
     }
     
     func setuptNameCell () {
@@ -150,6 +160,7 @@ class CellForAddingNewPlace: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }
 
 extension CellForAddingNewPlace: UITextFieldDelegate {
