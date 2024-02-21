@@ -49,6 +49,7 @@ class CellForAddingNewPlace: UITableViewCell {
         cellImage.contentMode = .scaleAspectFill
         cellImage.clipsToBounds = true
         cellImage.image = image
+        cellImage.layer.cornerRadius = 20
     }
     
     func setuptNameCell () {
@@ -167,5 +168,20 @@ extension CellForAddingNewPlace: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+}
+
+extension UIImage {
+    func scaledToFill(targetSize: CGSize) -> UIImage {
+        let newSize = targetSize
+        let widthRatio = newSize.width / size.width
+        let heightRatio = newSize.height / size.height
+        let scaleFactor = max(widthRatio, heightRatio)
+        let scaledSize = CGSize(width: size.width * scaleFactor, height: size.height * scaleFactor)
+        let renderer = UIGraphicsImageRenderer(size: scaledSize)
+        let scaledImage = renderer.image { _ in
+            self.draw(in: CGRect(origin: .zero, size: scaledSize))
+        }
+        return scaledImage
     }
 }

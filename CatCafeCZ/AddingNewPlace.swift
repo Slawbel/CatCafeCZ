@@ -1,7 +1,7 @@
 import UIKit
 import PhotosUI
 
-class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSource, PHPickerViewControllerDelegate {
+class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSource, PHPickerViewControllerDelegate, UINavigationControllerDelegate {
 
     private var tableView = UITableView()
     private var selectedImage: UIImage?
@@ -70,9 +70,11 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
         switch indexPath.row {
         case 0: do { 
-            cell?.setupImageByText(text: "Photo")
+            
             if let selectedImage = selectedImage {
                 cell?.setupImageByImage(image: selectedImage)
+            } else {
+                cell?.setupImageByText(text: "Photo")
             }
         }
         case 1: do { cell?.setuptNameCell() }
@@ -136,19 +138,33 @@ extension AddingNewPlace: UIImagePickerControllerDelegate {
     func chooseCameraPicker(source: UIImagePickerController.SourceType) {
         if UIImagePickerController.isSourceTypeAvailable(source) {
             let imagePicker = UIImagePickerController()
-            imagePicker.allowsEditing = true
             imagePicker.sourceType = source
+            imagePicker.delegate = self
+            imagePicker.allowsEditing = true
             present(imagePicker, animated: true)
         }
     }
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+
+        if let editedImage = info[.editedImage] as? UIImage {
+            self.selectedImage = editedImage
+        } else if let originalImage = info[.originalImage] as? UIImage {
+            self.selectedImage = originalImage
+        }
+
+        let indexPath = IndexPath(row: 0, section: 0)
+        self.tableView.reloadRows(at: [indexPath], with: .none)
+    }
+
+    
     func choosePhotoProgrammatically() {
-        var configuration = PHPickerConfiguration(photoLibrary: PHPhotoLibrary.shared())
-        configuration.selectionLimit = 1
-            
-        let picker = PHPickerViewController(configuration: configuration)
-        picker.delegate = self
-        present(picker, animated: true)
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true // Enable editing for cropping
+        present(imagePicker, animated: true)
     }
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
@@ -161,11 +177,13 @@ extension AddingNewPlace: UIImagePickerControllerDelegate {
         if selectedImageResult.itemProvider.canLoadObject(ofClass: UIImage.self) {
             selectedImageResult.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
                 guard let self = self else { return }
-                
+
                 if let image = image as? UIImage {
                     self.selectedImage = image
                     DispatchQueue.main.async {
-                        self.tableView.reloadData()
+                        // Reload the specific cell that displays the image
+                        let indexPath = IndexPath(row: 0, section: 0) // Assuming the image is in the first row
+                        self.tableView.reloadRows(at: [indexPath], with: .none)
                     }
                 }
             }
