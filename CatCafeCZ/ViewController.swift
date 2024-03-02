@@ -65,7 +65,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell?.setupTitle(textName: self.places[indexPath.row].name )
         cell?.setupLocation(textLocation: self.places[indexPath.row].location)
         cell?.setupType(textType: self.places[indexPath.row].type)
-        cell?.cellImage.image = UIImage(named: places[indexPath.row].image)
+        cell?.cellImage.image = UIImage(named: places[indexPath.row].restaurantImage!)
         cell?.cellImage.layer.cornerRadius = 100 / 2
         cell?.cellImage.clipsToBounds = true
         

@@ -103,7 +103,6 @@
 				A2C271F82B6BBC25009E40C6 /* CatCafeCZTests */,
 				A2C272022B6BBC25009E40C6 /* CatCafeCZUITests */,
 				A2C271DD2B6BBC23009E40C6 /* Products */,
-				A2C272152B6BD705009E40C6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -148,13 +147,6 @@
 				A2C272052B6BBC25009E40C6 /* CatCafeCZUITestsLaunchTests.swift */,
 			);
 			path = CatCafeCZUITests;
-			sourceTree = "<group>";
-		};
-		A2C272152B6BD705009E40C6 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

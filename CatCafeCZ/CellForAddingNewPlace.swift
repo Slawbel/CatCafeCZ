@@ -6,19 +6,19 @@ protocol AddingNewPlaceDelegate: AnyObject {
 }
 
 class CellForAddingNewPlace: UITableViewCell {
-    private var cellImage = UIImageView()
+    private var placeImage = UIImageView()
     
     private var addNameStackView = UIStackView()
     private var addNameLabel = UILabel()
-    var addNameTF = UITextField()
+    private var placeName = UITextField()
     
     private var addLocationStackView = UIStackView()
     private var addLocationLabel = UILabel()
-    private var addLocationTF = UITextField()
+    private var placeLocation = UITextField()
     
     private var addTypeStackView = UIStackView()
     private var addTypeLabel = UILabel()
-    private var addTypeTF = UITextField()
+    private var placeType = UITextField()
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -29,27 +29,26 @@ class CellForAddingNewPlace: UITableViewCell {
         
         self.selectionStyle = .none
         
-        cellImage.contentMode = .center
+        placeImage.contentMode = .center
 
-
-        contentView.addSubview(cellImage)
+        contentView.addSubview(placeImage)
 
         
-        cellImage.snp.makeConstraints{ make in
+        placeImage.snp.makeConstraints{ make in
             make.leading.trailing.top.bottom.equalToSuperview()
         }
     }
     
     
     func setupImageByText (text: String?) {
-        cellImage.image = UIImage(named: text!)
+        placeImage.image = UIImage(named: text!)
     }
     
     func setupImageByImage (image: UIImage) {
-        cellImage.contentMode = .scaleAspectFill
-        cellImage.clipsToBounds = true
-        cellImage.image = image
-        cellImage.layer.cornerRadius = 20
+        placeImage.contentMode = .scaleAspectFill
+        placeImage.clipsToBounds = true
+        placeImage.image = image
+        placeImage.layer.cornerRadius = 20
     }
     
     func setuptNameCell () {
@@ -59,18 +58,18 @@ class CellForAddingNewPlace: UITableViewCell {
         self.addNameLabel.font = UIFont.systemFont(ofSize: 19, weight: .thin)
         self.addNameLabel.text = "Name"
  
-        self.addNameTF.attributedPlaceholder = NSAttributedString(string: " Enter name of place here", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
-        self.addNameTF.backgroundColor = .black
-        self.addNameTF.layer.cornerRadius = 10
-        self.addNameTF.autocapitalizationType = .sentences
-        self.addNameTF.returnKeyType = .done
-        self.addNameTF.textColor = .white
-        self.addNameTF.delegate = self
+        self.placeName.attributedPlaceholder = NSAttributedString(string: " Enter name of place here", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
+        self.placeName.backgroundColor = .black
+        self.placeName.layer.cornerRadius = 10
+        self.placeName.autocapitalizationType = .sentences
+        self.placeName.returnKeyType = .done
+        self.placeName.textColor = .white
+        self.placeName.delegate = self
 
         
         contentView.addSubview(addNameStackView)
         addNameStackView.addSubview(addNameLabel)
-        addNameStackView.addSubview(addNameTF)
+        addNameStackView.addSubview(placeName)
         
         addNameStackView.snp.makeConstraints{ make in
             make.top.bottom.leading.trailing.equalToSuperview()
@@ -82,7 +81,7 @@ class CellForAddingNewPlace: UITableViewCell {
             make.height.equalTo(20)
         }
         
-        addNameTF.snp.makeConstraints{ make in
+        placeName.snp.makeConstraints{ make in
             make.top.equalTo(addNameLabel.snp.bottom).offset(7)
             make.leading.trailing.bottom.equalToSuperview().inset(10)
         }
@@ -95,17 +94,17 @@ class CellForAddingNewPlace: UITableViewCell {
         self.addLocationLabel.font = UIFont.systemFont(ofSize: 19, weight: .thin)
         self.addLocationLabel.text = "Location"
  
-        self.addLocationTF.attributedPlaceholder = NSAttributedString(string: " Enter location of place here", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
-        self.addLocationTF.backgroundColor = .black
-        self.addLocationTF.layer.cornerRadius = 10
-        self.addLocationTF.autocapitalizationType = .sentences
-        self.addLocationTF.returnKeyType = .done
-        self.addLocationTF.textColor = .white
-        self.addLocationTF.delegate = self
+        self.placeLocation.attributedPlaceholder = NSAttributedString(string: " Enter location of place here", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
+        self.placeLocation.backgroundColor = .black
+        self.placeLocation.layer.cornerRadius = 10
+        self.placeLocation.autocapitalizationType = .sentences
+        self.placeLocation.returnKeyType = .done
+        self.placeLocation.textColor = .white
+        self.placeLocation.delegate = self
         
         contentView.addSubview(addLocationStackView)
         addLocationStackView.addSubview(addLocationLabel)
-        addLocationStackView.addSubview(addLocationTF)
+        addLocationStackView.addSubview(placeLocation)
         
         addLocationStackView.snp.makeConstraints{ make in
             make.top.bottom.leading.trailing.equalToSuperview()
@@ -117,7 +116,7 @@ class CellForAddingNewPlace: UITableViewCell {
             make.height.equalTo(20)
         }
         
-        addLocationTF.snp.makeConstraints{ make in
+        placeLocation.snp.makeConstraints{ make in
             make.top.equalTo(addLocationLabel.snp.bottom).offset(7)
             make.leading.trailing.bottom.equalToSuperview().inset(10)
         }
@@ -130,17 +129,17 @@ class CellForAddingNewPlace: UITableViewCell {
         self.addTypeLabel.font = UIFont.systemFont(ofSize: 19, weight: .thin)
         self.addTypeLabel.text = "Type"
  
-        self.addTypeTF.attributedPlaceholder = NSAttributedString(string: " Enter type of place here", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
-        self.addTypeTF.backgroundColor = .black
-        self.addTypeTF.layer.cornerRadius = 10
-        self.addTypeTF.autocapitalizationType = .sentences
-        self.addTypeTF.returnKeyType = .done
-        self.addTypeTF.textColor = .white
-        self.addTypeTF.delegate = self
+        self.placeType.attributedPlaceholder = NSAttributedString(string: " Enter type of place here", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
+        self.placeType.backgroundColor = .black
+        self.placeType.layer.cornerRadius = 10
+        self.placeType.autocapitalizationType = .sentences
+        self.placeType.returnKeyType = .done
+        self.placeType.textColor = .white
+        self.placeType.delegate = self
         
         contentView.addSubview(addTypeStackView)
         addTypeStackView.addSubview(addTypeLabel)
-        addTypeStackView.addSubview(addTypeTF)
+        addTypeStackView.addSubview(placeType)
         
         addTypeStackView.snp.makeConstraints{ make in
             make.top.bottom.leading.trailing.equalToSuperview()
@@ -152,7 +151,7 @@ class CellForAddingNewPlace: UITableViewCell {
             make.height.equalTo(20)
         }
         
-        addTypeTF.snp.makeConstraints{ make in
+        placeType.snp.makeConstraints{ make in
             make.top.equalTo(addTypeLabel.snp.bottom).offset(7)
             make.leading.trailing.bottom.equalToSuperview().inset(10)
         }

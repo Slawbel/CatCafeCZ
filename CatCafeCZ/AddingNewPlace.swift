@@ -1,19 +1,21 @@
 import UIKit
 import PhotosUI
 
-class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSource, PHPickerViewControllerDelegate, UINavigationControllerDelegate {
+
+class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate {
 
     private var tableView = UITableView()
     private var selectedImage: UIImage?
     
-    weak var imageDelegae: CellForAddingNewPlace?
+    weak var imageDelegate: CellForAddingNewPlace?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
-        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveTapped))
+        
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false
@@ -96,15 +98,25 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
+            let cameraIcon = UIImage(imageLiteralResourceName: "camera")
+            let photoIcon = UIImage(imageLiteralResourceName: "photo1")
+            
             let actionSheet = UIAlertController(title: nil,
                                                 message: nil,
                                                 preferredStyle: .actionSheet)
+            
             let camera = UIAlertAction(title: "Camera", style: .default) { _ in
                 self.chooseCameraPicker(source: .camera)
             }
+            camera.setValue(cameraIcon, forKey: "image")
+            camera.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            
             let photo = UIAlertAction(title: "Photo", style: .default) { _ in
-                self.choosePhotoProgrammatically()
+                self.chooseCameraPicker(source: .photoLibrary)
             }
+            photo.setValue(photoIcon, forKey: "image")
+            photo.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            
             let cancel = UIAlertAction(title: "Cancel", style: .cancel)
             actionSheet.addAction(camera)
             actionSheet.addAction(photo)
@@ -146,48 +158,16 @@ extension AddingNewPlace: UIImagePickerControllerDelegate {
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true)
+            picker.dismiss(animated: true)
 
-        if let editedImage = info[.editedImage] as? UIImage {
-            self.selectedImage = editedImage
-        } else if let originalImage = info[.originalImage] as? UIImage {
-            self.selectedImage = originalImage
-        }
-
-        let indexPath = IndexPath(row: 0, section: 0)
-        self.tableView.reloadRows(at: [indexPath], with: .none)
-    }
-
-    
-    func choosePhotoProgrammatically() {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true // Enable editing for cropping
-        present(imagePicker, animated: true)
-    }
-    
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true)
-
-        guard let selectedImageResult = results.first else {
-            return
-        }
-
-        if selectedImageResult.itemProvider.canLoadObject(ofClass: UIImage.self) {
-            selectedImageResult.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
-                guard let self = self else { return }
-
-                if let image = image as? UIImage {
-                    self.selectedImage = image
-                    DispatchQueue.main.async {
-                        // Reload the specific cell that displays the image
-                        let indexPath = IndexPath(row: 0, section: 0) // Assuming the image is in the first row
-                        self.tableView.reloadRows(at: [indexPath], with: .none)
-                    }
-                }
+            if let editedImage = info[.editedImage] as? UIImage {
+                self.selectedImage = editedImage
+            } else if let originalImage = info[.originalImage] as? UIImage {
+                self.selectedImage = originalImage
             }
-        }
+
+            let indexPath = IndexPath(row: 0, section: 0)
+            self.tableView.reloadRows(at: [indexPath], with: .none)
     }
 }
 
