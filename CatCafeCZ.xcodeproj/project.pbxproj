@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A24B28752B934E4F004CA796 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A24B28742B934E4F004CA796 /* Launch Screen.storyboard */; };
+		A24B28752B934E4F004CA796 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A24B28742B934E4F004CA796 /* LaunchScreen.storyboard */; };
 		A24B287B2B94E755004CA796 /* CustomLaucnScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24B287A2B94E755004CA796 /* CustomLaucnScreenViewController.swift */; };
 		A268CC612B719261004A7DEA /* ChakraPetch-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A268CC602B71803A004A7DEA /* ChakraPetch-Regular.ttf */; };
 		A268CC662B73AB06004A7DEA /* CafeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A268CC652B73AB06004A7DEA /* CafeModel.swift */; };
@@ -43,7 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A24B28742B934E4F004CA796 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		A24B28742B934E4F004CA796 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A24B287A2B94E755004CA796 /* CustomLaucnScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLaucnScreenViewController.swift; sourceTree = "<group>"; };
 		A268CC602B71803A004A7DEA /* ChakraPetch-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ChakraPetch-Regular.ttf"; path = "CatCafeCZ/Fonts/ChakraPetch-Regular.ttf"; sourceTree = SOURCE_ROOT; };
 		A268CC652B73AB06004A7DEA /* CafeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeModel.swift; sourceTree = "<group>"; };
@@ -131,7 +131,7 @@
 				A2C272182B6BEA7D009E40C6 /* CellTableViewControllerForViewController.swift */,
 				A268CC652B73AB06004A7DEA /* CafeModel.swift */,
 				A268CC672B73C1DD004A7DEA /* AddingNewPlace.swift */,
-				A24B28742B934E4F004CA796 /* Launch Screen.storyboard */,
+				A24B28742B934E4F004CA796 /* LaunchScreen.storyboard */,
 				A268CC692B73ED16004A7DEA /* CellForAddingNewPlace.swift */,
 				A24B287A2B94E755004CA796 /* CustomLaucnScreenViewController.swift */,
 			);
@@ -267,7 +267,7 @@
 			files = (
 				A2C272132B6BBFB9009E40C6 /* .gitignore in Resources */,
 				A2C271EC2B6BBC25009E40C6 /* Assets.xcassets in Resources */,
-				A24B28752B934E4F004CA796 /* Launch Screen.storyboard in Resources */,
+				A24B28752B934E4F004CA796 /* LaunchScreen.storyboard in Resources */,
 				A268CC612B719261004A7DEA /* ChakraPetch-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -468,6 +468,7 @@
 				INFOPLIST_FILE = CatCafeCZ/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = EatHereInFuture;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_NSCameraUsageDescription = "$(PRODUCT_NAME) photo use";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIStatusBarHidden = NO;
@@ -502,6 +503,7 @@
 				INFOPLIST_FILE = CatCafeCZ/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = EatHereInFuture;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_NSCameraUsageDescription = "$(PRODUCT_NAME) photo use";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIStatusBarHidden = NO;
