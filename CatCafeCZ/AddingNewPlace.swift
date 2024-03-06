@@ -3,11 +3,12 @@ import PhotosUI
 
 
 class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate {
+    
 
     private var tableView = UITableView()
     private var selectedImage: UIImage?
     
-    weak var imageDelegate: CellForAddingNewPlace?
+    weak var imageDelegate: CustomCellImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,14 +65,13 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        print("hello")
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = CellForAddingNewPlace.cellForIndexPath(indexPath: indexPath)
-        if let selectedImage {
-            (cell as? CustomCellImage)?.setupImageByImage(image: selectedImage)
-        }
+        if selectedImage == nil {
+            (cell as? CustomCellImage)?.setupImageByText(text: "Photo")
+        } 
 
         cell.layer.cornerRadius = 20
         cell.backgroundColor = .systemGray6
@@ -156,9 +156,14 @@ extension AddingNewPlace: UIImagePickerControllerDelegate {
             } else if let originalImage = info[.originalImage] as? UIImage {
                 self.selectedImage = originalImage
             }
+        
+            if let selectedImage = self.selectedImage {
+                self.imageDelegate?.setupImageByImage(image: selectedImage)
+            }
 
             let indexPath = IndexPath(row: 0, section: 0)
-            self.tableView.reloadRows(at: [indexPath], with: .none)
+            //self.tableView.reloadRows(at: [indexPath], with: .none)
+            self.tableView.reloadData()
     }
 }
 
