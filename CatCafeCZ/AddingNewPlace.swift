@@ -71,7 +71,9 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cell = CellForAddingNewPlace.cellForIndexPath(indexPath: indexPath)
         if selectedImage == nil {
             (cell as? CustomCellImage)?.setupImageByText(text: "Photo")
-        } 
+        } else {
+            (cell as? CustomCellImage)?.setupImageByImage(image: selectedImage!)
+        }
 
         cell.layer.cornerRadius = 20
         cell.backgroundColor = .systemGray6
