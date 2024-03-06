@@ -31,6 +31,8 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         
+        tableView.register(CellForAddingNewPlace.self, forCellReuseIdentifier: "CellForAddingNewPlace")
+        
         view.addSubview(tableView)
         view.addGestureRecognizer(tapGesture)
         
@@ -66,26 +68,11 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CellForAddingNewPlace", for: indexPath) as? CellForAddingNewPlace
-        cell?.layer.cornerRadius = 20
-        cell?.backgroundColor = .systemGray6
-                
-        switch indexPath.row {
-        case 0: do { 
-            
-            if let selectedImage = selectedImage {
-                cell?.setupImageByImage(image: selectedImage)
-            } else {
-                cell?.setupImageByText(text: "Photo")
-            }
-        }
-        case 1: do { cell?.setuptNameCell() }
-        case 2: do { cell?.setuptLocationCell() }
-        case 3: do { cell?.setuptTypeCell() }
-        default: break
-        }
+        let cell = CellForAddingNewPlace.cellForIndexPath(indexPath: indexPath)
+        cell.layer.cornerRadius = 20
+        cell.backgroundColor = .systemGray6
         
-        return cell!
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

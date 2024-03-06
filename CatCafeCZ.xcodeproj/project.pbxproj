@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		A24B28752B934E4F004CA796 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A24B28742B934E4F004CA796 /* LaunchScreen.storyboard */; };
 		A24B287B2B94E755004CA796 /* CustomLaucnScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24B287A2B94E755004CA796 /* CustomLaucnScreenViewController.swift */; };
+		A24B287F2B975F7A004CA796 /* CustomCellName.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24B287E2B975F7A004CA796 /* CustomCellName.swift */; };
+		A24B28812B976F5C004CA796 /* CustomCellLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24B28802B976F5C004CA796 /* CustomCellLocation.swift */; };
+		A24B28832B97749B004CA796 /* CustomCellPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24B28822B97749B004CA796 /* CustomCellPlace.swift */; };
+		A24B28852B978341004CA796 /* CustomCellImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24B28842B978341004CA796 /* CustomCellImage.swift */; };
 		A268CC612B719261004A7DEA /* ChakraPetch-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A268CC602B71803A004A7DEA /* ChakraPetch-Regular.ttf */; };
 		A268CC662B73AB06004A7DEA /* CafeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A268CC652B73AB06004A7DEA /* CafeModel.swift */; };
 		A268CC682B73C1DD004A7DEA /* AddingNewPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A268CC672B73C1DD004A7DEA /* AddingNewPlace.swift */; };
@@ -45,6 +49,10 @@
 /* Begin PBXFileReference section */
 		A24B28742B934E4F004CA796 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A24B287A2B94E755004CA796 /* CustomLaucnScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLaucnScreenViewController.swift; sourceTree = "<group>"; };
+		A24B287E2B975F7A004CA796 /* CustomCellName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCellName.swift; sourceTree = "<group>"; };
+		A24B28802B976F5C004CA796 /* CustomCellLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCellLocation.swift; sourceTree = "<group>"; };
+		A24B28822B97749B004CA796 /* CustomCellPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCellPlace.swift; sourceTree = "<group>"; };
+		A24B28842B978341004CA796 /* CustomCellImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCellImage.swift; sourceTree = "<group>"; };
 		A268CC602B71803A004A7DEA /* ChakraPetch-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ChakraPetch-Regular.ttf"; path = "CatCafeCZ/Fonts/ChakraPetch-Regular.ttf"; sourceTree = SOURCE_ROOT; };
 		A268CC652B73AB06004A7DEA /* CafeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeModel.swift; sourceTree = "<group>"; };
 		A268CC672B73C1DD004A7DEA /* AddingNewPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingNewPlace.swift; sourceTree = "<group>"; };
@@ -133,7 +141,11 @@
 				A268CC672B73C1DD004A7DEA /* AddingNewPlace.swift */,
 				A24B28742B934E4F004CA796 /* LaunchScreen.storyboard */,
 				A268CC692B73ED16004A7DEA /* CellForAddingNewPlace.swift */,
+				A24B28842B978341004CA796 /* CustomCellImage.swift */,
+				A24B28822B97749B004CA796 /* CustomCellPlace.swift */,
 				A24B287A2B94E755004CA796 /* CustomLaucnScreenViewController.swift */,
+				A24B287E2B975F7A004CA796 /* CustomCellName.swift */,
+				A24B28802B976F5C004CA796 /* CustomCellLocation.swift */,
 			);
 			path = CatCafeCZ;
 			sourceTree = "<group>";
@@ -298,9 +310,13 @@
 				A2C272192B6BEA7D009E40C6 /* CellTableViewControllerForViewController.swift in Sources */,
 				A268CC682B73C1DD004A7DEA /* AddingNewPlace.swift in Sources */,
 				A24B287B2B94E755004CA796 /* CustomLaucnScreenViewController.swift in Sources */,
+				A24B28812B976F5C004CA796 /* CustomCellLocation.swift in Sources */,
+				A24B28852B978341004CA796 /* CustomCellImage.swift in Sources */,
 				A2C271EA2B6BBC23009E40C6 /* CatCafeCZ.xcdatamodeld in Sources */,
 				A268CC662B73AB06004A7DEA /* CafeModel.swift in Sources */,
 				A268CC6A2B73ED16004A7DEA /* CellForAddingNewPlace.swift in Sources */,
+				A24B287F2B975F7A004CA796 /* CustomCellName.swift in Sources */,
+				A24B28832B97749B004CA796 /* CustomCellPlace.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
