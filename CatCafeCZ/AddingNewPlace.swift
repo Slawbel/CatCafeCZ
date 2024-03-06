@@ -158,10 +158,7 @@ extension AddingNewPlace: UIImagePickerControllerDelegate {
             } else if let originalImage = info[.originalImage] as? UIImage {
                 self.selectedImage = originalImage
             }
-        
-            if let selectedImage = self.selectedImage {
-                self.imageDelegate?.setupImageByImage(image: selectedImage)
-            }
+
 
             let indexPath = IndexPath(row: 0, section: 0)
             //self.tableView.reloadRows(at: [indexPath], with: .none)
