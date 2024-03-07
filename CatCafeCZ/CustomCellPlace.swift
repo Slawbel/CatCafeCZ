@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-class CustomCellPlace: UITableViewCell, UITextFieldDelegate {
+class CustomCellPlace: CustomCell, UITextFieldDelegate {
     
     private var addTypeStackView = UIStackView()
     private var addTypeLabel = UILabel()

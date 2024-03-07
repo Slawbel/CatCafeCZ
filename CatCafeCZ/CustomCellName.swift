@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-class CustomCellName: UITableViewCell, UITextFieldDelegate {
+class CustomCellName: CustomCell, UITextFieldDelegate {
     
     private var addNameStackView = UIStackView()
     private var addNameLabel = UILabel()

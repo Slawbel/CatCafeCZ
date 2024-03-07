@@ -1,7 +1,13 @@
 import UIKit
 import SnapKit
 
-class CustomCellLocation: UITableViewCell, UITextFieldDelegate {
+class CustomCell: UITableViewCell {
+    func setupImageByImage(image: UIImage) {
+
+    }
+}
+
+class CustomCellLocation: CustomCell, UITextFieldDelegate {
     
     private var addLocationStackView = UIStackView()
     private var addLocationLabel = UILabel()

@@ -72,7 +72,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         if selectedImage == nil {
             (cell as? CustomCellImage)?.setupImageByText(text: "Photo")
         } else {
-            (cell as? CustomCellImage)?.setupImageByImage(image: selectedImage!)
+            (cell as? CustomCell)?.setupImageByImage(image: selectedImage!)
         }
 
         cell.layer.cornerRadius = 20

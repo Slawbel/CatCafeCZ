@@ -5,7 +5,7 @@ protocol AddingNewPlaceDelegate: AnyObject {
     func setupImageByImage(image: UIImage)
 }
 
-class CustomCellImage: UITableViewCell, AddingNewPlaceDelegate {
+class CustomCellImage: CustomCell, AddingNewPlaceDelegate {
     
     private var placeImage = UIImageView()
     
@@ -26,7 +26,7 @@ class CustomCellImage: UITableViewCell, AddingNewPlaceDelegate {
         placeImage.image = UIImage(named: text!)
     }
     
-    func setupImageByImage (image: UIImage) {
+    override func setupImageByImage (image: UIImage) {
         placeImage.contentMode = .scaleAspectFill
         placeImage.clipsToBounds = true
         placeImage.image = image
