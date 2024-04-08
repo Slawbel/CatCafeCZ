@@ -13,10 +13,4 @@ class CellForAddingNewPlace: UITableViewCell {
     }
 }
 
-extension CellForAddingNewPlace: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-}
 

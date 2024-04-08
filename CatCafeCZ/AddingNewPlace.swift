@@ -2,13 +2,24 @@ import UIKit
 import PhotosUI
 
 
-class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate {
-    
+protocol ArgumentsOfPlaceDelegate: AnyObject {
+    func initializeImageOfPlace(image: UIImage?)
+    func initializeNameOfPlace(name: String)
+    func initializeLocationOfPlace(location: String?)
+    func initializeTypeOfPlace( type: String?)
+}
 
+
+class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate {
     private var tableView = UITableView()
+    
     private var selectedImage: UIImage?
+    private var nameOfPlace: String = ""
+    private var locationOfPlace: String?
+    private var typeOfPlace: String?
     
     weak var imageDelegate: CustomCellImage?
+    weak var newPlaceDelegate: newPlaceDelegateProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,6 +28,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveTapped))
         
         self.navigationItem.rightBarButtonItem?.isEnabled = false
+
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false
@@ -51,8 +63,19 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.navigationController?.popViewController(animated: true)
     }
     
+    // makes button Save visible (and unvisible again when textField for name of place is empty)
+    @objc private func textFieldDidChange(textFromTF: UITextField) {
+        if let text = textFromTF.text, !text.isEmpty {
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
+        } else {
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+        }
+    }
+    
     @objc private func saveTapped() {
-        
+        let place = Cafe(name: nameOfPlace, location: locationOfPlace, type: typeOfPlace, restaurantImage: nil, image: selectedImage)
+        self.newPlaceDelegate?.addPlace(newPlace: place)
+        cancelTapped()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,14 +92,35 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = CellForAddingNewPlace.cellForIndexPath(indexPath: indexPath)
-        if selectedImage == nil {
-            (cell as? CustomCellImage)?.setupImageByText(text: "Photo")
-        } else {
-            (cell as? CustomCellImage)?.setupImageByImage(image: selectedImage!)
+        
+        if let customCellImage = cell as? CustomCellImage {
+            if selectedImage == nil {
+                let picturePattern = customCellImage.setupImageByText(text: "Photo")
+                self.selectedImage = picturePattern
+            } else {
+                customCellImage.setupImageByImage(image: selectedImage!)
+            }
+        }
+        
+        // Inside cellForRowAt method of AddingNewPlace class
+        if let customCellName = cell as? CustomCellName {
+            customCellName.delegate = self
+            customCellName.placeName.delegate = self
+        } else if let customCellLocation = cell as? CustomCellLocation {
+            customCellLocation.delegate = self
+            customCellLocation.placeLocation.delegate = self
+        } else if let customCellPlace = cell as? CustomCellPlace {
+            customCellPlace.delegate = self
+            customCellPlace.placeType.delegate = self
+        }
+        
+        if indexPath.row == 1 {
+            (cell as? CustomCellName)?.placeName.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         }
 
         cell.layer.cornerRadius = 20
         cell.backgroundColor = .systemGray6
+        
         
         return cell
     }
@@ -163,6 +207,39 @@ extension AddingNewPlace: UIImagePickerControllerDelegate {
             let indexPath = IndexPath(row: 0, section: 0)
             //self.tableView.reloadRows(at: [indexPath], with: .none)
             self.tableView.reloadData()
+    }
+}
+
+extension AddingNewPlace: ArgumentsOfPlaceDelegate {
+    internal func initializeImageOfPlace (image: UIImage?) {
+        print(image == nil)
+        if image != nil {
+            print("initializeImageOfPlace is working")
+            self.selectedImage = image
+        }
+    }
+    
+    internal func initializeNameOfPlace (name: String) {
+        self.nameOfPlace = name
+    }
+    
+    internal func initializeLocationOfPlace (location: String?) {
+        if location != nil {
+            self.locationOfPlace = location
+        }
+    }
+    
+    internal func initializeTypeOfPlace (type: String?) {
+        if type != nil {
+            self.typeOfPlace = type
+        }
+    }
+}
+
+extension AddingNewPlace: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 

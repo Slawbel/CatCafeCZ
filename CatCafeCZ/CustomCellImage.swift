@@ -1,13 +1,9 @@
 import UIKit
 import SnapKit
 
-protocol AddingNewPlaceDelegate: AnyObject {
-    func setupImageByImage(image: UIImage)
-}
-
-class CustomCellImage: UITableViewCell, AddingNewPlaceDelegate {
+class CustomCellImage: UITableViewCell {
     
-    private var placeImage = UIImageView()
+    var placeImage = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -19,11 +15,12 @@ class CustomCellImage: UITableViewCell, AddingNewPlaceDelegate {
         placeImage.snp.makeConstraints{ make in
             make.leading.trailing.top.bottom.equalToSuperview()
         }
-        
     }
     
-    func setupImageByText (text: String?) {
-        placeImage.image = UIImage(named: text!)
+    func setupImageByText (text: String?) -> UIImage {
+        let pictureByText = UIImage(named: text!)
+        placeImage.image = pictureByText
+        return pictureByText!
     }
     
     func setupImageByImage (image: UIImage) {
@@ -37,7 +34,6 @@ class CustomCellImage: UITableViewCell, AddingNewPlaceDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
 
 
 extension UIImage {

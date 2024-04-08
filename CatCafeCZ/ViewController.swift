@@ -7,11 +7,15 @@
 import UIKit
 import SnapKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+protocol newPlaceDelegateProtocol: AnyObject {
+    func addPlace(newPlace: Cafe)
+}
+
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, newPlaceDelegateProtocol {
    
     private var tableView = UITableView()
     
-    private let places = Cafe.getCafe()
+    private var places = Cafe.getCafe()
     private let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
     
     
@@ -62,10 +66,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         cell?.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         
-        cell?.setupTitle(textName: self.places[indexPath.row].name )
-        cell?.setupLocation(textLocation: self.places[indexPath.row].location)
-        cell?.setupType(textType: self.places[indexPath.row].type)
-        cell?.cellImage.image = UIImage(named: places[indexPath.row].restaurantImage!)
+        let place = places[indexPath.row]
+        
+        cell?.setupTitle(textName: place.name )
+        cell?.setupLocation(textLocation: place.location)
+        cell?.setupType(textType: place.type)
+        
+        if place.image == nil {
+            cell?.cellImage.image = UIImage(named: place.restaurantImage!)
+        } else {
+            cell?.cellImage.image = place.image
+        }
+        
         cell?.cellImage.layer.cornerRadius = 100 / 2
         cell?.cellImage.clipsToBounds = true
         
@@ -80,10 +92,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @objc private func addTapped() {
         let addingNewPlace = AddingNewPlace()
+        addingNewPlace.newPlaceDelegate = self
         self.navigationController?.modalTransitionStyle = .crossDissolve
         self.navigationController?.pushViewController(addingNewPlace, animated: true)
-        
-        
+    }
+    
+    internal func addPlace (newPlace: Cafe) {
+        places.append(newPlace)
+        tableView.reloadData()
     }
 }
 

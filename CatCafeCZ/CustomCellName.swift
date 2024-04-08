@@ -5,7 +5,8 @@ class CustomCellName: UITableViewCell, UITextFieldDelegate {
     
     private var addNameStackView = UIStackView()
     private var addNameLabel = UILabel()
-    private var placeName = UITextField()
+    var placeName = UITextField()
+    weak var delegate: ArgumentsOfPlaceDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -26,7 +27,16 @@ class CustomCellName: UITableViewCell, UITextFieldDelegate {
         self.placeName.returnKeyType = .done
         self.placeName.textColor = .white
         self.placeName.delegate = self
+        
+        let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: placeName.frame.height))
+        placeName.leftView = leftPaddingView
+        placeName.leftViewMode = .always
+        
+        let rightPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: placeName.frame.height))
+        placeName.rightView = rightPaddingView
+        placeName.rightViewMode = .always
 
+        placeName.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
         contentView.addSubview(addNameStackView)
         addNameStackView.addSubview(addNameLabel)
@@ -53,4 +63,14 @@ class CustomCellName: UITableViewCell, UITextFieldDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+        if let text = textField.text {
+            self.delegate?.initializeNameOfPlace(name: text)
+        }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        placeName.removeTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+    }
 }

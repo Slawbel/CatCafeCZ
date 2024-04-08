@@ -5,7 +5,8 @@ class CustomCellPlace: UITableViewCell, UITextFieldDelegate {
     
     private var addTypeStackView = UIStackView()
     private var addTypeLabel = UILabel()
-    private var placeType = UITextField()
+    var placeType = UITextField()
+    weak var delegate: ArgumentsOfPlaceDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -23,6 +24,8 @@ class CustomCellPlace: UITableViewCell, UITextFieldDelegate {
         self.placeType.returnKeyType = .done
         self.placeType.textColor = .white
         self.placeType.delegate = self
+        
+        placeType.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
         contentView.addSubview(addTypeStackView)
         addTypeStackView.addSubview(addTypeLabel)
@@ -47,5 +50,16 @@ class CustomCellPlace: UITableViewCell, UITextFieldDelegate {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+        if let text = textField.text {
+            self.delegate?.initializeTypeOfPlace(type: text)
+        }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        placeType.removeTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
 }
