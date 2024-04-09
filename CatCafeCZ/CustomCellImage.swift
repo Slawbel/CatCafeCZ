@@ -17,10 +17,9 @@ class CustomCellImage: UITableViewCell {
         }
     }
     
-    func setupImageByText (text: String?) -> UIImage {
+    func setupImageByText (text: String?) {
         let pictureByText = UIImage(named: text!)
         placeImage.image = pictureByText
-        return pictureByText!
     }
     
     func setupImageByImage (image: UIImage) {

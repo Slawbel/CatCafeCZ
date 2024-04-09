@@ -95,8 +95,8 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         if let customCellImage = cell as? CustomCellImage {
             if selectedImage == nil {
-                let picturePattern = customCellImage.setupImageByText(text: "Photo")
-                self.selectedImage = picturePattern
+                customCellImage.setupImageByText(text: "Photo")
+                self.selectedImage = UIImage(named: "imagePlaceholder")
             } else {
                 customCellImage.setupImageByImage(image: selectedImage!)
             }
@@ -106,12 +106,15 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         if let customCellName = cell as? CustomCellName {
             customCellName.delegate = self
             customCellName.placeName.delegate = self
+            customCellName.placeName.text = nameOfPlace
         } else if let customCellLocation = cell as? CustomCellLocation {
             customCellLocation.delegate = self
             customCellLocation.placeLocation.delegate = self
+            customCellLocation.placeLocation.text = locationOfPlace
         } else if let customCellPlace = cell as? CustomCellPlace {
             customCellPlace.delegate = self
             customCellPlace.placeType.delegate = self
+            customCellPlace.placeType.text = typeOfPlace
         }
         
         if indexPath.row == 1 {
