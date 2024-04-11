@@ -25,6 +25,14 @@ class CustomCellLocation: UITableViewCell, UITextFieldDelegate {
         self.placeLocation.textColor = .white
         self.placeLocation.delegate = self
         
+        let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: placeLocation.frame.height))
+        placeLocation.leftView = leftPaddingView
+        placeLocation.leftViewMode = .always
+        
+        let rightPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: placeLocation.frame.height))
+        placeLocation.rightView = rightPaddingView
+        placeLocation.rightViewMode = .always
+        
         placeLocation.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
         contentView.addSubview(addLocationStackView)

@@ -6,25 +6,25 @@
 //
 import UIKit
 import SnapKit
+import RealmSwift
 
 protocol newPlaceDelegateProtocol: AnyObject {
     func addPlace(newPlace: Cafe)
 }
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, newPlaceDelegateProtocol {
-   
     private var tableView = UITableView()
     
-    private var places = Cafe.getCafe()
+    var places: Results <Cafe>!
     private let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        places = realm.objects(Cafe.self)
+        
         backgroundImage.image = UIImage(named: "Photo")
         backgroundImage.contentMode = .scaleAspectFill
-        
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -56,36 +56,41 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK: - tableView functions
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.places.count
+        return places.isEmpty ? 0 : places.count
     }
     
-    func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "CellTableViewControllerForViewController", for: indexPath) as? CellTableViewControllerForViewController
-        if (cell == nil) {
+        if cell == nil {
             cell = CellTableViewControllerForViewController.init(style: .default, reuseIdentifier: "CellTableViewControllerForViewController")
         }
         cell?.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         
         let place = places[indexPath.row]
+        print("Setting up cell for row \(indexPath.row), name: \(place.name)")
+        print(place)
+
         
-        cell?.setupTitle(textName: place.name )
+        cell?.cellName.text = place.name
         cell?.setupLocation(textLocation: place.location)
         cell?.setupType(textType: place.type)
         
-        if place.image == nil {
-            cell?.cellImage.image = UIImage(named: place.restaurantImage!)
+        // Если изображение может быть nil, используйте безопасное развертывание
+        if let imageData = place.imageData, let image = UIImage(data: imageData) {
+            cell?.cellImage.image = image
         } else {
-            cell?.cellImage.image = place.image
+            // Установите заглушку или другое изображение по умолчанию, если данные изображения отсутствуют
+            cell?.cellImage.image = UIImage(named: "placeholder")
         }
         
-        cell?.cellImage.layer.cornerRadius = 100 / 2
+        cell?.cellImage.layer.cornerRadius = 50
         cell?.cellImage.clipsToBounds = true
         
         cell?.backgroundColor = .white
         cell?.layer.cornerRadius = 50
         return cell!
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
@@ -98,7 +103,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     internal func addPlace (newPlace: Cafe) {
-        places.append(newPlace)
         tableView.reloadData()
     }
 }

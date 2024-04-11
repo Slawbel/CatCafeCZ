@@ -16,6 +16,9 @@
 		A268CC662B73AB06004A7DEA /* CafeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A268CC652B73AB06004A7DEA /* CafeModel.swift */; };
 		A268CC682B73C1DD004A7DEA /* AddingNewPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A268CC672B73C1DD004A7DEA /* AddingNewPlace.swift */; };
 		A268CC6A2B73ED16004A7DEA /* CellForAddingNewPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A268CC692B73ED16004A7DEA /* CellForAddingNewPlace.swift */; };
+		A2C2245F2BC6D2130027A521 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = A2C2245E2BC6D2130027A521 /* Realm */; };
+		A2C224612BC6D2130027A521 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A2C224602BC6D2130027A521 /* RealmSwift */; };
+		A2C224632BC6D6760027A521 /* StoresManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C224622BC6D6760027A521 /* StoresManager.swift */; };
 		A2C271E02B6BBC23009E40C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C271DF2B6BBC23009E40C6 /* AppDelegate.swift */; };
 		A2C271E42B6BBC23009E40C6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C271E32B6BBC23009E40C6 /* ViewController.swift */; };
 		A2C271EA2B6BBC23009E40C6 /* CatCafeCZ.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A2C271E82B6BBC23009E40C6 /* CatCafeCZ.xcdatamodeld */; };
@@ -55,6 +58,7 @@
 		A268CC652B73AB06004A7DEA /* CafeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeModel.swift; sourceTree = "<group>"; };
 		A268CC672B73C1DD004A7DEA /* AddingNewPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingNewPlace.swift; sourceTree = "<group>"; };
 		A268CC692B73ED16004A7DEA /* CellForAddingNewPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForAddingNewPlace.swift; sourceTree = "<group>"; };
+		A2C224622BC6D6760027A521 /* StoresManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoresManager.swift; sourceTree = "<group>"; };
 		A2C271DC2B6BBC23009E40C6 /* CatCafeCZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatCafeCZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2C271DF2B6BBC23009E40C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A2C271E32B6BBC23009E40C6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -75,6 +79,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2C224612BC6D2130027A521 /* RealmSwift in Frameworks */,
+				A2C2245F2BC6D2130027A521 /* Realm in Frameworks */,
 				A2C272172B6BD705009E40C6 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,6 +143,7 @@
 				A2C271F02B6BBC25009E40C6 /* Info.plist */,
 				A2C271E82B6BBC23009E40C6 /* CatCafeCZ.xcdatamodeld */,
 				A268CC652B73AB06004A7DEA /* CafeModel.swift */,
+				A2C224622BC6D6760027A521 /* StoresManager.swift */,
 				A24B28742B934E4F004CA796 /* LaunchScreen.storyboard */,
 				A24B28842B978341004CA796 /* CustomCellImage.swift */,
 				A24B287E2B975F7A004CA796 /* CustomCellName.swift */,
@@ -182,6 +189,8 @@
 			name = CatCafeCZ;
 			packageProductDependencies = (
 				A2C272162B6BD705009E40C6 /* SnapKit */,
+				A2C2245E2BC6D2130027A521 /* Realm */,
+				A2C224602BC6D2130027A521 /* RealmSwift */,
 			);
 			productName = CatCafeCZ;
 			productReference = A2C271DC2B6BBC23009E40C6 /* CatCafeCZ.app */;
@@ -257,6 +266,7 @@
 			mainGroup = A2C271D32B6BBC23009E40C6;
 			packageReferences = (
 				A2C272142B6BD46C009E40C6 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				A2C2245D2BC6D2130027A521 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = A2C271DD2B6BBC23009E40C6 /* Products */;
 			projectDirPath = "";
@@ -303,6 +313,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2C271E42B6BBC23009E40C6 /* ViewController.swift in Sources */,
+				A2C224632BC6D6760027A521 /* StoresManager.swift in Sources */,
 				A2C271E02B6BBC23009E40C6 /* AppDelegate.swift in Sources */,
 				A2C272192B6BEA7D009E40C6 /* CellTableViewControllerForViewController.swift in Sources */,
 				A268CC682B73C1DD004A7DEA /* AddingNewPlace.swift in Sources */,
@@ -672,6 +683,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		A2C2245D2BC6D2130027A521 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		A2C272142B6BD46C009E40C6 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -683,6 +702,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A2C2245E2BC6D2130027A521 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A2C2245D2BC6D2130027A521 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		A2C224602BC6D2130027A521 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A2C2245D2BC6D2130027A521 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
 		A2C272162B6BD705009E40C6 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A2C272142B6BD46C009E40C6 /* XCRemoteSwiftPackageReference "SnapKit" */;

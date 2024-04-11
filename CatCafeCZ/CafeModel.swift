@@ -1,22 +1,17 @@
+import RealmSwift
 import UIKit
 
-
-struct Cafe {
-    var name: String
-    var location: String?
-    var type: String?
-    var restaurantImage: String?
-    var image: UIImage?
+class Cafe: Object {
+    @objc var name = ""
+    @objc var location: String?
+    @objc var type: String?
+    @objc var imageData: Data?
     
-    static var restaurantNames = ["Isai Ramen", "Na kopečku", "Vavřinové lázně"]
-
-    static func getCafe () -> [Cafe] {
-        var cafes = [Cafe]()
-        
-        for cafe in restaurantNames {
-            cafes.append(Cafe(name: cafe, location: "Czech Republic", type: "Restaurant", restaurantImage: cafe, image: nil))
-        }
-        
-        return cafes
+    convenience init(name: String, location: String?, type: String?, imageData: Data?) {
+        self.init()
+        self.name = name
+        self.location = location
+        self.type = type
+        self.imageData = imageData
     }
 }

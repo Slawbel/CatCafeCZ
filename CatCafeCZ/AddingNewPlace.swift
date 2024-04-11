@@ -1,6 +1,4 @@
 import UIKit
-import PhotosUI
-
 
 protocol ArgumentsOfPlaceDelegate: AnyObject {
     func initializeImageOfPlace(image: UIImage?)
@@ -8,7 +6,6 @@ protocol ArgumentsOfPlaceDelegate: AnyObject {
     func initializeLocationOfPlace(location: String?)
     func initializeTypeOfPlace( type: String?)
 }
-
 
 class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate {
     private var tableView = UITableView()
@@ -73,8 +70,12 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @objc private func saveTapped() {
-        let place = Cafe(name: nameOfPlace, location: locationOfPlace, type: typeOfPlace, restaurantImage: nil, image: selectedImage)
-        self.newPlaceDelegate?.addPlace(newPlace: place)
+        let imageData = selectedImage?.pngData()
+        
+        let newPlace = Cafe(name: nameOfPlace, location: locationOfPlace, type: typeOfPlace, imageData: imageData)
+        StoreManager.saveObject(newPlace)
+        newPlaceDelegate?.addPlace(newPlace: newPlace)
+
         cancelTapped()
     }
     
