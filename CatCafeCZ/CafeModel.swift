@@ -2,10 +2,10 @@ import RealmSwift
 import UIKit
 
 class Cafe: Object {
-    @objc var name = ""
-    @objc var location: String?
-    @objc var type: String?
-    @objc var imageData: Data?
+    @Persisted var name = ""
+    @Persisted var location: String?
+    @Persisted var type: String?
+    @Persisted var imageData: Data?
     
     convenience init(name: String, location: String?, type: String?, imageData: Data?) {
         self.init()
