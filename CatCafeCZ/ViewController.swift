@@ -95,6 +95,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return 100
     }
     
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let cafeToDelete = places[indexPath.row]
+            do {
+                StoreManager.deleteObject(cafeToDelete)
+            }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
     @objc private func addTapped() {
         let addingNewPlace = AddingNewPlace()
         addingNewPlace.newPlaceDelegate = self

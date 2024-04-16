@@ -10,4 +10,10 @@ class StoreManager {
         }
     }
     
+    static func deleteObject(_ cafe: Cafe) {
+        try! realm.write{
+            realm.delete(cafe)
+        }
+    }
+    
 }
