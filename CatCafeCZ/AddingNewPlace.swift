@@ -56,7 +56,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @objc private func cancelTapped() {
-        self.navigationController?.popViewController(animated: true)
+        Coordinator.closeAnotherScreen(from: self)
     }
     
     // makes button Save visible (and unvisible again when textField for name of place is empty)
@@ -123,7 +123,6 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
 
         cell.layer.cornerRadius = 20
         cell.backgroundColor = .systemGray6
-        
         
         return cell
     }

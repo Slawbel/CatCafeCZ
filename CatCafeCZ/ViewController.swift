@@ -12,6 +12,10 @@ protocol newPlaceDelegateProtocol: AnyObject {
     func addPlace(newPlace: Cafe)
 }
 
+protocol editPlaceDelegateProtocol: AnyObject {
+    func editPlace(editPlace: Cafe)
+}
+
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, newPlaceDelegateProtocol {
     private var tableView = UITableView()
     
@@ -21,6 +25,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // here is content of database in array form
         places = realm.objects(Cafe.self)
         
         backgroundImage.image = UIImage(named: "Photo")
@@ -31,16 +36,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.register(CellTableViewControllerForViewController.self, forCellReuseIdentifier: "CellTableViewControllerForViewController")
         tableView.backgroundColor = .black
        
-        
-        //self.navigationController?.changeTitleStyle()
         self.navigationItem.title = "Select your meal"
         self.navigationController?.navigationBar.backgroundColor = .orange
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "ChakraPetch-Regular", size: 20)!]
         self.navigationController?.navigationBar.layer.cornerRadius = 20
 
-        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addTapped))
-        
         
         view.addSubview(backgroundImage)
         view.addSubview(tableView)
@@ -50,11 +51,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             make.leading.bottom.trailing.equalTo(view)
             make.top.equalTo(view)
         }
-        
     }
 
-    // MARK: - tableView functions
     
+    // MARK: - tableView functions
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return places.isEmpty ? 0 : places.count
     }
@@ -67,19 +67,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell?.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         
         let place = places[indexPath.row]
-        print("Setting up cell for row \(indexPath.row), name: \(place.name)")
-        print(place)
-
         
+        // setting of database content to cell's elements
         cell?.cellName.text = place.name
         cell?.setupLocation(textLocation: place.location)
         cell?.setupType(textType: place.type)
         
-        // Если изображение может быть nil, используйте безопасное развертывание
+        // setting of template image or image from camera or album
         if let imageData = place.imageData, let image = UIImage(data: imageData) {
             cell?.cellImage.image = image
         } else {
-            // Установите заглушку или другое изображение по умолчанию, если данные изображения отсутствуют
             cell?.cellImage.image = UIImage(named: "placeholder")
         }
         
@@ -95,6 +92,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return 100
     }
     
+    
+    // MARK: - deleting of cell
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .delete
     }
@@ -109,11 +108,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
+    // MARK: - editing of cell
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+    
+    
+    // MARK: - Opening of screen to add some new place (cell) and returning entered info to main first screen
     @objc private func addTapped() {
         let addingNewPlace = AddingNewPlace()
         addingNewPlace.newPlaceDelegate = self
         self.navigationController?.modalTransitionStyle = .crossDissolve
-        self.navigationController?.pushViewController(addingNewPlace, animated: true)
+        Coordinator.openAnotherScreen(from: self, to: addingNewPlace)
     }
     
     internal func addPlace (newPlace: Cafe) {
@@ -121,6 +127,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 }
 
+// needed to set black colour of text for UINavigationController
 extension UINavigationController {
     func setupNavigationBarTextColor() {
         self.navigationBar.tintColor = .black
