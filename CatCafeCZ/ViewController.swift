@@ -9,11 +9,7 @@ import SnapKit
 import RealmSwift
 
 protocol newPlaceDelegateProtocol: AnyObject {
-    func addPlace(newPlace: Cafe)
-}
-
-protocol editPlaceDelegateProtocol: AnyObject {
-    func editPlace(editPlace: Cafe)
+    func addPlace()
 }
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, newPlaceDelegateProtocol {
@@ -26,7 +22,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         
         // here is content of database in array form
-        places = realm.objects(Cafe.self)
+        reloadResults()
         
         backgroundImage.image = UIImage(named: "Photo")
         backgroundImage.contentMode = .scaleAspectFill
@@ -110,7 +106,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // MARK: - editing of cell
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        guard let indexPath = tableView.indexPathForSelectedRow else { return }
+        let placeForEditing = places[indexPath.row]
+        let editingScreen = AddingNewPlace()
+        editingScreen.currentCafe = placeForEditing
+        Coordinator.openAnotherScreen(from: self, to: editingScreen)
     }
     
     
@@ -120,10 +120,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         addingNewPlace.newPlaceDelegate = self
         self.navigationController?.modalTransitionStyle = .crossDissolve
         Coordinator.openAnotherScreen(from: self, to: addingNewPlace)
+        reloadResults()
     }
     
-    internal func addPlace (newPlace: Cafe) {
+    internal func addPlace () {
         tableView.reloadData()
+    }
+    
+    private func reloadResults() {
+        addPlace()
+        self.places = realm.objects(Cafe.self)
     }
 }
 
@@ -133,3 +139,5 @@ extension UINavigationController {
         self.navigationBar.tintColor = .black
     }
 }
+
+

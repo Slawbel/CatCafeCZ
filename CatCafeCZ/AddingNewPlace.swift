@@ -1,7 +1,6 @@
 import UIKit
 
 protocol ArgumentsOfPlaceDelegate: AnyObject {
-    func initializeImageOfPlace(image: UIImage?)
     func initializeNameOfPlace(name: String)
     func initializeLocationOfPlace(location: String?)
     func initializeTypeOfPlace( type: String?)
@@ -15,7 +14,8 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
     private var locationOfPlace: String?
     private var typeOfPlace: String?
     
-    weak var imageDelegate: CustomCellImage?
+    var currentCafe: Cafe?
+    
     weak var newPlaceDelegate: newPlaceDelegateProtocol?
     
     override func viewDidLoad() {
@@ -26,6 +26,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         self.navigationItem.rightBarButtonItem?.isEnabled = false
         
+        // to hide keyboard when user taps on background
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false
         
@@ -37,11 +38,10 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.backgroundColor = .black
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
         
+        // calling of methods to show textField when keyboard covers textField
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        tableView.register(CellForAddingNewPlace.self, forCellReuseIdentifier: "CellForAddingNewPlace")
-        
+                
         view.addSubview(tableView)
         view.addGestureRecognizer(tapGesture)
         
@@ -51,33 +51,43 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
+    
+    // MARK: - save and close methods
     @objc private func cancelTapped() {
         Coordinator.closeAnotherScreen(from: self)
     }
     
-    // makes button Save visible (and unvisible again when textField for name of place is empty)
-    @objc private func textFieldDidChange(textFromTF: UITextField) {
-        if let text = textFromTF.text, !text.isEmpty {
-            self.navigationItem.rightBarButtonItem?.isEnabled = true
-        } else {
-            self.navigationItem.rightBarButtonItem?.isEnabled = false
-        }
-    }
-    
+    // adding of content to DB
     @objc private func saveTapped() {
         let imageData = selectedImage?.pngData()
-        
         let newPlace = Cafe(name: nameOfPlace, location: locationOfPlace, type: typeOfPlace, imageData: imageData)
-        StoreManager.saveObject(newPlace)
-        newPlaceDelegate?.addPlace(newPlace: newPlace)
-
+        if let currentCafe = currentCafe {
+            do {
+                try realm.write {
+                    currentCafe.name = newPlace.name
+                    currentCafe.location = newPlace.location
+                    currentCafe.type = newPlace.type
+                    currentCafe.imageData = newPlace.imageData
+                    print(currentCafe.name)
+                    print(currentCafe.location)
+                    print(currentCafe.type)
+                }
+            } catch {
+                print("Error updating currentCafe: \(error)")
+            }
+        } else {
+            StoreManager.saveObject(newPlace)
+        }
+        newPlaceDelegate?.addPlace()
         cancelTapped()
     }
     
+    
+    // MARK: - UITableView setting
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
     }
@@ -86,13 +96,10 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         return 1
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = CellForAddingNewPlace.cellForIndexPath(indexPath: indexPath)
         
+        // the first cell will have template image or downloaded image
         if let customCellImage = cell as? CustomCellImage {
             if selectedImage == nil {
                 customCellImage.setupImageByText(text: "Photo")
@@ -102,21 +109,50 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
         
-        // Inside cellForRowAt method of AddingNewPlace class
-        if let customCellName = cell as? CustomCellName {
-            customCellName.delegate = self
-            customCellName.placeName.delegate = self
-            customCellName.placeName.text = nameOfPlace
-        } else if let customCellLocation = cell as? CustomCellLocation {
-            customCellLocation.delegate = self
-            customCellLocation.placeLocation.delegate = self
-            customCellLocation.placeLocation.text = locationOfPlace
-        } else if let customCellPlace = cell as? CustomCellPlace {
-            customCellPlace.delegate = self
-            customCellPlace.placeType.delegate = self
-            customCellPlace.placeType.text = typeOfPlace
+        // if currentCafe != nil then screen is opened for editing, else it is opened for new cafe
+        if currentCafe != nil {
+            setupSaveButtonEditing()
+            if let data = currentCafe?.imageData {
+                if let image = UIImage(data: data) {
+                    if let customCellName = cell as? CustomCellName {
+                        customCellName.delegate = self
+                        customCellName.placeName.delegate = self
+                        customCellName.placeName.text = currentCafe?.name
+                    } else if let customCellLocation = cell as? CustomCellLocation {
+                        customCellLocation.delegate = self
+                        customCellLocation.placeLocation.delegate = self
+                        customCellLocation.placeLocation.text = currentCafe?.location
+                    } else if let customCellPlace = cell as? CustomCellPlace {
+                        customCellPlace.delegate = self
+                        customCellPlace.placeType.delegate = self
+                        customCellPlace.placeType.text = currentCafe?.type
+                    } else if let CustomCellImage = cell as? CustomCellImage {
+                        CustomCellImage.placeImage.image = image
+                        CustomCellImage.placeImage.contentMode = .scaleAspectFill
+                        CustomCellImage.placeImage.clipsToBounds = true
+                        CustomCellImage.placeImage.layer.cornerRadius = 20
+                    }
+                }
+            }
+        } else {
+            // Inside cellForRowAt method
+            if let customCellName = cell as? CustomCellName {
+                customCellName.delegate = self
+                customCellName.placeName.delegate = self
+                customCellName.placeName.text = nameOfPlace
+            } else if let customCellLocation = cell as? CustomCellLocation {
+                customCellLocation.delegate = self
+                customCellLocation.placeLocation.delegate = self
+                customCellLocation.placeLocation.text = locationOfPlace
+            } else if let customCellPlace = cell as? CustomCellPlace {
+                customCellPlace.delegate = self
+                customCellPlace.placeType.delegate = self
+                customCellPlace.placeType.text = typeOfPlace
+            }
+
         }
         
+        // blocking of button Save
         if indexPath.row == 1 {
             (cell as? CustomCellName)?.placeName.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         }
@@ -140,6 +176,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
             let cameraIcon = UIImage(imageLiteralResourceName: "camera")
             let photoIcon = UIImage(imageLiteralResourceName: "photo1")
             
+            // setting of menu for downloading if image from camera or album
             let actionSheet = UIAlertController(title: nil,
                                                 message: nil,
                                                 preferredStyle: .actionSheet)
@@ -164,10 +201,8 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
     
+// MARK: - hide keyboard, and show textField when keyboard covers it
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
                 let keyboardFrameValue = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
@@ -183,8 +218,23 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.contentInset = .zero
         tableView.scrollIndicatorInsets = .zero
     }
+    
+    // makes button Save visible (and unvisible again when textField for name of place is empty)
+    @objc private func textFieldDidChange(textFromTF: UITextField) {
+        if let text = textFromTF.text, !text.isEmpty {
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
+        } else {
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+        }
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
+
+// MARK: - connection to camera
 extension AddingNewPlace: UIImagePickerControllerDelegate {
     func chooseCameraPicker(source: UIImagePickerController.SourceType) {
         if UIImagePickerController.isSourceTypeAvailable(source) {
@@ -196,6 +246,7 @@ extension AddingNewPlace: UIImagePickerControllerDelegate {
         }
     }
     
+    // updating of picture that is shown on the first cell
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             picker.dismiss(animated: true)
 
@@ -204,23 +255,13 @@ extension AddingNewPlace: UIImagePickerControllerDelegate {
             } else if let originalImage = info[.originalImage] as? UIImage {
                 self.selectedImage = originalImage
             }
-
-
-            let indexPath = IndexPath(row: 0, section: 0)
-            //self.tableView.reloadRows(at: [indexPath], with: .none)
             self.tableView.reloadData()
     }
 }
 
+
+// MARK: - setting of content to cell's elements
 extension AddingNewPlace: ArgumentsOfPlaceDelegate {
-    internal func initializeImageOfPlace (image: UIImage?) {
-        print(image == nil)
-        if image != nil {
-            print("initializeImageOfPlace is working")
-            self.selectedImage = image
-        }
-    }
-    
     internal func initializeNameOfPlace (name: String) {
         self.nameOfPlace = name
     }
@@ -235,6 +276,31 @@ extension AddingNewPlace: ArgumentsOfPlaceDelegate {
         if type != nil {
             self.typeOfPlace = type
         }
+    }
+    
+    
+    // MARK: - Setting of content for editing
+    private func setupSaveButtonEditing() {
+        
+        self.navigationItem.rightBarButtonItem?.isEnabled = true
+        self.navigationItem.leftBarButtonItem = nil
+        title = currentCafe?.name
+    }
+    
+    // changes title to bigger size
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = currentCafe != nil
+        navigationItem.largeTitleDisplayMode = .always
+        if let topItem = navigationController?.navigationBar.topItem {
+            topItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        }
+    }
+    
+    // returns normal size of title
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = false
     }
 }
 
