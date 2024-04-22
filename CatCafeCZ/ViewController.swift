@@ -8,11 +8,11 @@ import UIKit
 import SnapKit
 import RealmSwift
 
-protocol newPlaceDelegateProtocol: AnyObject {
-    func addPlace()
+protocol AddingNewPlaceDelegate: AnyObject {
+    func didAddNewPlace()
 }
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, newPlaceDelegateProtocol {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, AddingNewPlaceDelegate {
     private var tableView = UITableView()
     
     var places: Results <Cafe>!
@@ -22,7 +22,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         
         // here is content of database in array form
-        reloadResults()
+        didAddNewPlace()
         
         backgroundImage.image = UIImage(named: "Photo")
         backgroundImage.contentMode = .scaleAspectFill
@@ -110,27 +110,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let placeForEditing = places[indexPath.row]
         let editingScreen = AddingNewPlace()
         editingScreen.currentCafe = placeForEditing
+        editingScreen.delegateToUpdateTableView = self
         Coordinator.openAnotherScreen(from: self, to: editingScreen)
+    }
+    
+    func didAddNewPlace() {
+            // Reload data and update table view after the AddingNewPlace screen is dismissed
+            self.places = realm.objects(Cafe.self)
+            self.tableView.reloadData()
     }
     
     
     // MARK: - Opening of screen to add some new place (cell) and returning entered info to main first screen
     @objc private func addTapped() {
         let addingNewPlace = AddingNewPlace()
-        addingNewPlace.newPlaceDelegate = self
-        self.navigationController?.modalTransitionStyle = .crossDissolve
+        addingNewPlace.delegateToUpdateTableView = self
         Coordinator.openAnotherScreen(from: self, to: addingNewPlace)
-        reloadResults()
     }
-    
-    internal func addPlace () {
-        tableView.reloadData()
-    }
-    
-    private func reloadResults() {
-        addPlace()
-        self.places = realm.objects(Cafe.self)
-    }
+
 }
 
 // needed to set black colour of text for UINavigationController

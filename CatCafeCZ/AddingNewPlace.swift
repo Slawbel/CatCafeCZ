@@ -6,7 +6,7 @@ protocol ArgumentsOfPlaceDelegate: AnyObject {
     func initializeTypeOfPlace( type: String?)
 }
 
-class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate {
+class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, ArgumentsOfPlaceDelegate {
     private var tableView = UITableView()
     
     private var selectedImage: UIImage?
@@ -16,7 +16,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var currentCafe: Cafe?
     
-    weak var newPlaceDelegate: newPlaceDelegateProtocol?
+    weak var delegateToUpdateTableView: AddingNewPlaceDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +65,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
     @objc private func saveTapped() {
         let imageData = selectedImage?.pngData()
         let newPlace = Cafe(name: nameOfPlace, location: locationOfPlace, type: typeOfPlace, imageData: imageData)
+        print(newPlace)
         if let currentCafe = currentCafe {
             do {
                 try realm.write {
@@ -72,9 +73,9 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
                     currentCafe.location = newPlace.location
                     currentCafe.type = newPlace.type
                     currentCafe.imageData = newPlace.imageData
-                    print(currentCafe.name)
-                    print(currentCafe.location)
-                    print(currentCafe.type)
+//                    print(currentCafe.name)
+//                    print(currentCafe.location)
+//                    print(currentCafe.type)""
                 }
             } catch {
                 print("Error updating currentCafe: \(error)")
@@ -82,7 +83,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else {
             StoreManager.saveObject(newPlace)
         }
-        newPlaceDelegate?.addPlace()
+        delegateToUpdateTableView?.didAddNewPlace()
         cancelTapped()
     }
     
@@ -257,11 +258,7 @@ extension AddingNewPlace: UIImagePickerControllerDelegate {
             }
             self.tableView.reloadData()
     }
-}
-
-
-// MARK: - setting of content to cell's elements
-extension AddingNewPlace: ArgumentsOfPlaceDelegate {
+    
     internal func initializeNameOfPlace (name: String) {
         self.nameOfPlace = name
     }
@@ -277,8 +274,8 @@ extension AddingNewPlace: ArgumentsOfPlaceDelegate {
             self.typeOfPlace = type
         }
     }
-    
-    
+
+
     // MARK: - Setting of content for editing
     private func setupSaveButtonEditing() {
         
