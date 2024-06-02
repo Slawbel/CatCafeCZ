@@ -35,7 +35,7 @@ class CustomCellName: UITableViewCell, UITextFieldDelegate {
         let rightPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: placeName.frame.height))
         placeName.rightView = rightPaddingView
         placeName.rightViewMode = .always
-
+        
         placeName.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
         contentView.addSubview(addNameStackView)

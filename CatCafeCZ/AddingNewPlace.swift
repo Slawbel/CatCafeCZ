@@ -30,6 +30,9 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false
         
+        // Check If editing text was existed and transfer it for editing
+        checkForExistedText()
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(CellForAddingNewPlace.self, forCellReuseIdentifier: "CellForAddingNewPlace")
@@ -73,9 +76,6 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
                     currentCafe.location = newPlace.location
                     currentCafe.type = newPlace.type
                     currentCafe.imageData = newPlace.imageData
-//                    print(currentCafe.name)
-//                    print(currentCafe.location)
-//                    print(currentCafe.type)""
                 }
             } catch {
                 print("Error updating currentCafe: \(error)")
@@ -116,6 +116,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
             if let data = currentCafe?.imageData {
                 if let image = UIImage(data: data) {
                     if let customCellName = cell as? CustomCellName {
+                        print(customCellName)
                         customCellName.delegate = self
                         customCellName.placeName.delegate = self
                         customCellName.placeName.text = currentCafe?.name
@@ -298,6 +299,17 @@ extension AddingNewPlace: UIImagePickerControllerDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.prefersLargeTitles = false
+    }
+    
+    func checkForExistedText () {
+        if let currentCafe =  self.currentCafe {
+            self.nameOfPlace = currentCafe.name
+            self.locationOfPlace = currentCafe.location
+            self.typeOfPlace = currentCafe.type
+            if let data = currentCafe.imageData {
+                self.selectedImage = UIImage(data: data)
+            }
+        }
     }
 }
 
