@@ -100,23 +100,12 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = CellForAddingNewPlace.cellForIndexPath(indexPath: indexPath)
         
-        // the first cell will have template image or downloaded image
-        if let customCellImage = cell as? CustomCellImage {
-            if selectedImage == nil {
-                customCellImage.setupImageByText(text: "Photo")
-                self.selectedImage = UIImage(named: "imagePlaceholder")
-            } else {
-                customCellImage.setupImageByImage(image: selectedImage!)
-            }
-        }
-        
         // if currentCafe != nil then screen is opened for editing, else it is opened for new cafe
         if currentCafe != nil {
             setupSaveButtonEditing()
             if let data = currentCafe?.imageData {
                 if let image = UIImage(data: data) {
                     if let customCellName = cell as? CustomCellName {
-                        print(customCellName)
                         customCellName.delegate = self
                         customCellName.placeName.delegate = self
                         customCellName.placeName.text = currentCafe?.name
@@ -128,11 +117,11 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
                         customCellPlace.delegate = self
                         customCellPlace.placeType.delegate = self
                         customCellPlace.placeType.text = currentCafe?.type
-                    } else if let CustomCellImage = cell as? CustomCellImage {
-                        CustomCellImage.placeImage.image = image
-                        CustomCellImage.placeImage.contentMode = .scaleAspectFill
-                        CustomCellImage.placeImage.clipsToBounds = true
-                        CustomCellImage.placeImage.layer.cornerRadius = 20
+                    } else if let customCellImage = cell as? CustomCellImage {
+                        customCellImage.placeImage.image = image
+                        customCellImage.placeImage.contentMode = .scaleAspectFill
+                        customCellImage.placeImage.clipsToBounds = true
+                        customCellImage.placeImage.layer.cornerRadius = 20
                     }
                 }
             }
@@ -152,6 +141,16 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
                 customCellPlace.placeType.text = typeOfPlace
             }
 
+        }
+        
+        // the first cell will have template image or downloaded image
+        if let customCellImage = cell as? CustomCellImage {
+            if selectedImage == nil {
+                customCellImage.setupImageByText(text: "Photo")
+                self.selectedImage = UIImage(named: "imagePlaceholder")
+            } else {
+                customCellImage.setupImageByImage(image: selectedImage!)
+            }
         }
         
         // blocking of button Save
@@ -200,7 +199,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
             actionSheet.addAction(photo)
             actionSheet.addAction(cancel)
             present(actionSheet, animated: true)
-        }
+            }
     }
     
     
@@ -250,14 +249,15 @@ extension AddingNewPlace: UIImagePickerControllerDelegate {
     
     // updating of picture that is shown on the first cell
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            picker.dismiss(animated: true)
+        picker.dismiss(animated: true)
 
-            if let editedImage = info[.editedImage] as? UIImage {
-                self.selectedImage = editedImage
-            } else if let originalImage = info[.originalImage] as? UIImage {
-                self.selectedImage = originalImage
-            }
-            self.tableView.reloadData()
+        if let editedImage = info[.editedImage] as? UIImage {
+            self.selectedImage = editedImage
+        } else if let originalImage = info[.originalImage] as? UIImage {
+            self.selectedImage = originalImage
+        }
+        
+        self.tableView.reloadData()
     }
     
     internal func initializeNameOfPlace (name: String) {
