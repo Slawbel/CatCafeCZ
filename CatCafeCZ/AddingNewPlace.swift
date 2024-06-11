@@ -147,7 +147,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         if let customCellImage = cell as? CustomCellImage {
             if selectedImage == nil {
                 customCellImage.setupImageByText(text: "Photo")
-                self.selectedImage = UIImage(named: "imagePlaceholder")
+                //self.selectedImage = UIImage(named: "imagePlaceholder")
             } else {
                 customCellImage.setupImageByImage(image: selectedImage!)
             }

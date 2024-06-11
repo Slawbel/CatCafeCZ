@@ -73,7 +73,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if let imageData = place.imageData, let image = UIImage(data: imageData) {
             cell?.cellImage.image = image
         } else {
-            cell?.cellImage.image = UIImage(named: "placeholder")
+            cell?.cellImage.image = UIImage(named: "imagePlaceholder")
         }
         
         cell?.cellImage.layer.cornerRadius = 50
