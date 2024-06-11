@@ -103,28 +103,32 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         // if currentCafe != nil then screen is opened for editing, else it is opened for new cafe
         if currentCafe != nil {
             setupSaveButtonEditing()
-            if let data = currentCafe?.imageData {
-                if let image = UIImage(data: data) {
-                    if let customCellName = cell as? CustomCellName {
-                        customCellName.delegate = self
-                        customCellName.placeName.delegate = self
-                        customCellName.placeName.text = currentCafe?.name
-                    } else if let customCellLocation = cell as? CustomCellLocation {
-                        customCellLocation.delegate = self
-                        customCellLocation.placeLocation.delegate = self
-                        customCellLocation.placeLocation.text = currentCafe?.location
-                    } else if let customCellPlace = cell as? CustomCellPlace {
-                        customCellPlace.delegate = self
-                        customCellPlace.placeType.delegate = self
-                        customCellPlace.placeType.text = currentCafe?.type
-                    } else if let customCellImage = cell as? CustomCellImage {
-                        customCellImage.placeImage.image = image
-                        customCellImage.placeImage.contentMode = .scaleAspectFill
-                        customCellImage.placeImage.clipsToBounds = true
-                        customCellImage.placeImage.layer.cornerRadius = 20
+            if let name = currentCafe?.name {
+                if let customCellName = cell as? CustomCellName {
+                    customCellName.delegate = self
+                    customCellName.placeName.delegate = self
+                    customCellName.placeName.text = name
+                } else if let customCellLocation = cell as? CustomCellLocation {
+                    customCellLocation.delegate = self
+                    customCellLocation.placeLocation.delegate = self
+                    customCellLocation.placeLocation.text = currentCafe?.location
+                } else if let customCellPlace = cell as? CustomCellPlace {
+                    customCellPlace.delegate = self
+                    customCellPlace.placeType.delegate = self
+                    customCellPlace.placeType.text = currentCafe?.type
+                } else if let customCellImage = cell as? CustomCellImage {
+                    if currentCafe?.imageData != nil {
+                        let data = currentCafe?.imageData
+                        let image = UIImage(data: data!)
+                        customCellImage.setupImageByImage(image: image!)
+                    } else {
+                        customCellImage.setupImageByText(text: "Photo")
                     }
+                    customCellImage.placeImage.clipsToBounds = true
+                    customCellImage.placeImage.layer.cornerRadius = 20
                 }
             }
+            
         } else {
             // Inside cellForRowAt method
             if let customCellName = cell as? CustomCellName {
@@ -140,7 +144,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
                 customCellPlace.placeType.delegate = self
                 customCellPlace.placeType.text = typeOfPlace
             }
-
+            
         }
         
         // the first cell will have template image or downloaded image
