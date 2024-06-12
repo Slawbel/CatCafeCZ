@@ -24,7 +24,6 @@ class CustomCellImage: UITableViewCell {
     
     func setupImageByImage (image: UIImage) {
         placeImage.clipsToBounds = true
-        print(image)
         placeImage.image = image
         placeImage.layer.cornerRadius = 20
     }

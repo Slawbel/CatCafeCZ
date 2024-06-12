@@ -8,10 +8,12 @@ protocol AddingNewPlaceDelegate: AnyObject {
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, AddingNewPlaceDelegate {
     private var tableView = UITableView()
-    let segmentedControl = UISegmentedControl(items: ["Date", "A-Z"])
+    let segmentedControl = UISegmentedControl(items: ["Date", "Name"])
     
-    var places: Results <Cafe>!
+    var places: Results<Cafe>!
     private let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+    var ascendingSorting = true
+    private let realm = try! Realm()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +25,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.backgroundColor = .white
+        segmentedControl.addTarget(self, action: #selector(sortingSelection), for: .valueChanged)
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -35,7 +38,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.navigationController?.navigationBar.layer.cornerRadius = 20
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addTapped))
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "AZ"), style: .plain, target: self, action: #selector(sortAZ))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "AZ"), style: .plain, target: self, action: #selector(reversedSorting))
         
         view.addSubview(backgroundImage)
         view.addSubview(segmentedControl)
@@ -62,36 +65,33 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // MARK: - TableView DataSource and Delegate Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return places.isEmpty ? 0 : places.count
+        return places.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "CellTableViewControllerForViewController", for: indexPath) as? CellTableViewControllerForViewController
-        if cell == nil {
-            cell = CellTableViewControllerForViewController.init(style: .default, reuseIdentifier: "CellTableViewControllerForViewController")
-        }
-        cell?.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CellTableViewControllerForViewController", for: indexPath) as! CellTableViewControllerForViewController
+        cell.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         
         let place = places[indexPath.row]
         
         // Setting database content to cell's elements
-        cell?.cellName.text = place.name
-        cell?.setupLocation(textLocation: place.location)
-        cell?.setupType(textType: place.type)
+        cell.cellName.text = place.name
+        cell.setupLocation(textLocation: place.location)
+        cell.setupType(textType: place.type)
         
         // Setting template image or image from camera or album
         if let imageData = place.imageData, let image = UIImage(data: imageData) {
-            cell?.cellImage.image = image
+            cell.cellImage.image = image
         } else {
-            cell?.cellImage.image = UIImage(named: "imagePlaceholder")
+            cell.cellImage.image = UIImage(named: "imagePlaceholder")
         }
         
-        cell?.cellImage.layer.cornerRadius = 50
-        cell?.cellImage.clipsToBounds = true
+        cell.cellImage.layer.cornerRadius = 50
+        cell.cellImage.clipsToBounds = true
         
-        cell?.backgroundColor = .white
-        cell?.layer.cornerRadius = 50
-        return cell!
+        cell.backgroundColor = .white
+        cell.layer.cornerRadius = 50
+        return cell
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -106,8 +106,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let cafeToDelete = places[indexPath.row]
-            do {
-                StoreManager.deleteObject(cafeToDelete)
+            try! realm.write {
+                realm.delete(cafeToDelete)
             }
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
@@ -115,7 +115,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // MARK: - Editing of cell
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let indexPath = tableView.indexPathForSelectedRow else { return }
         let placeForEditing = places[indexPath.row]
         let editingScreen = AddingNewPlace()
         editingScreen.currentCafe = placeForEditing
@@ -126,7 +125,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func didAddNewPlace() {
         // Reload data and update table view after the AddingNewPlace screen is dismissed
         self.places = realm.objects(Cafe.self)
-        self.tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     // MARK: - Opening of screen to add a new place (cell) and returning entered info to main first screen
@@ -136,8 +137,32 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         Coordinator.openAnotherScreen(from: self, to: addingNewPlace)
     }
     
-    @objc private func sortAZ() {
-        // Sorting logic here
+    @objc private func sortingSelection(_ sender: UISegmentedControl) {
+        sorting()
+    }
+    
+    @objc private func reversedSorting() {
+        ascendingSorting.toggle()
+        let imageName = ascendingSorting ? "AZ" : "ZA"
+        if let image = UIImage(named: imageName) {
+            self.navigationItem.leftBarButtonItem?.image = image
+        } else {
+            print("Failed to load image named: \(imageName)")
+        }
+        
+        sorting()
+    }
+    
+    private func sorting() {
+        if segmentedControl.selectedSegmentIndex == 0 {
+            places = places.sorted(byKeyPath: "date", ascending: ascendingSorting)
+        } else {
+            places = places.sorted(byKeyPath: "name", ascending: ascendingSorting)
+        }
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }
 

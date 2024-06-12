@@ -68,7 +68,6 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
     @objc private func saveTapped() {
         let imageData = selectedImage?.pngData()
         let newPlace = Cafe(name: nameOfPlace, location: locationOfPlace, type: typeOfPlace, imageData: imageData)
-        print(newPlace)
         if let currentCafe = currentCafe {
             do {
                 try realm.write {
