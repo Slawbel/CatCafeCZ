@@ -198,12 +198,21 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
             photo.setValue(photoIcon, forKey: "image")
             photo.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             
+            let clear = UIAlertAction(title: "Clear Picture", style: .destructive) {_ in
+                self.selectedImage = nil
+                tableView.reloadData()
+            }
+            
+            
             let cancel = UIAlertAction(title: "Cancel", style: .cancel)
             actionSheet.addAction(camera)
             actionSheet.addAction(photo)
+            if let checkForNil = self.selectedImage {
+                actionSheet.addAction(clear)
+            }
             actionSheet.addAction(cancel)
             present(actionSheet, animated: true)
-            }
+        }
     }
     
     

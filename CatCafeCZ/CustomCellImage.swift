@@ -7,7 +7,7 @@ class CustomCellImage: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        placeImage.contentMode = .scaleAspectFill
         placeImage.contentMode = .center
 
         contentView.addSubview(placeImage)
@@ -23,7 +23,6 @@ class CustomCellImage: UITableViewCell {
     }
     
     func setupImageByImage (image: UIImage) {
-        placeImage.contentMode = .scaleAspectFill
         placeImage.clipsToBounds = true
         print(image)
         placeImage.image = image
