@@ -1,9 +1,3 @@
-//
-//  ViewController.swift
-//  CatCafeCZ
-//
-//  Created by Viacheslav Belov on 01.02.2024.
-//
 import UIKit
 import SnapKit
 import RealmSwift
@@ -14,6 +8,7 @@ protocol AddingNewPlaceDelegate: AnyObject {
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, AddingNewPlaceDelegate {
     private var tableView = UITableView()
+    let segmentedControl = UISegmentedControl(items: ["Date", "A-Z"])
     
     var places: Results <Cafe>!
     private let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
@@ -21,36 +16,51 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // here is content of database in array form
+        // Ensure content of database is loaded
         didAddNewPlace()
         
-        backgroundImage.image = UIImage(named: "Photo")
-        backgroundImage.contentMode = .scaleAspectFill
+        view.backgroundColor = .black
+        
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.backgroundColor = .white
         
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(CellTableViewControllerForViewController.self, forCellReuseIdentifier: "CellTableViewControllerForViewController")
         tableView.backgroundColor = .black
-       
+        
         self.navigationItem.title = "Select your meal"
         self.navigationController?.navigationBar.backgroundColor = .orange
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "ChakraPetch-Regular", size: 20)!]
         self.navigationController?.navigationBar.layer.cornerRadius = 20
-
+        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addTapped))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "AZ"), style: .plain, target: self, action: #selector(sortAZ))
         
         view.addSubview(backgroundImage)
+        view.addSubview(segmentedControl)
         view.addSubview(tableView)
         view.sendSubviewToBack(backgroundImage)
         
+        setupConstraints()
+    }
+    
+    private func setupConstraints() {
+        // Constraints for segmented control
+        segmentedControl.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.leading.trailing.equalTo(view)
+            make.height.equalTo(50)
+        }
+        
+        // Constraints for table view
         tableView.snp.makeConstraints { make in
-            make.leading.bottom.trailing.equalTo(view)
-            make.top.equalTo(view)
+            make.top.equalTo(segmentedControl.snp.bottom)
+            make.leading.trailing.bottom.equalTo(view)
         }
     }
-
     
-    // MARK: - tableView functions
+    // MARK: - TableView DataSource and Delegate Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return places.isEmpty ? 0 : places.count
     }
@@ -64,12 +74,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let place = places[indexPath.row]
         
-        // setting of database content to cell's elements
+        // Setting database content to cell's elements
         cell?.cellName.text = place.name
         cell?.setupLocation(textLocation: place.location)
         cell?.setupType(textType: place.type)
         
-        // setting of template image or image from camera or album
+        // Setting template image or image from camera or album
         if let imageData = place.imageData, let image = UIImage(data: imageData) {
             cell?.cellImage.image = image
         } else {
@@ -88,8 +98,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return 100
     }
     
-    
-    // MARK: - deleting of cell
+    // MARK: - Deleting of cell
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .delete
     }
@@ -104,7 +113,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
-    // MARK: - editing of cell
+    // MARK: - Editing of cell
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let indexPath = tableView.indexPathForSelectedRow else { return }
         let placeForEditing = places[indexPath.row]
@@ -115,26 +124,26 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func didAddNewPlace() {
-            // Reload data and update table view after the AddingNewPlace screen is dismissed
-            self.places = realm.objects(Cafe.self)
-            self.tableView.reloadData()
+        // Reload data and update table view after the AddingNewPlace screen is dismissed
+        self.places = realm.objects(Cafe.self)
+        self.tableView.reloadData()
     }
     
-    
-    // MARK: - Opening of screen to add some new place (cell) and returning entered info to main first screen
+    // MARK: - Opening of screen to add a new place (cell) and returning entered info to main first screen
     @objc private func addTapped() {
         let addingNewPlace = AddingNewPlace()
         addingNewPlace.delegateToUpdateTableView = self
         Coordinator.openAnotherScreen(from: self, to: addingNewPlace)
     }
-
+    
+    @objc private func sortAZ() {
+        // Sorting logic here
+    }
 }
 
-// needed to set black colour of text for UINavigationController
+// Extension to set black color for UINavigationController text
 extension UINavigationController {
     func setupNavigationBarTextColor() {
         self.navigationBar.tintColor = .black
     }
 }
-
-
