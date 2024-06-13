@@ -8,11 +8,20 @@ protocol AddingNewPlaceDelegate: AnyObject {
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, AddingNewPlaceDelegate {
     private var tableView = UITableView()
-    let segmentedControl = UISegmentedControl(items: ["Date", "Name"])
+    private let segmentedControl = UISegmentedControl(items: ["Date", "Name"])
+    private let searchController = UISearchController(searchResultsController: nil)
+    private var filteredPlaces: Results<Cafe>!
+    private var searchBarIsEmpty: Bool {
+        guard let text = searchController.searchBar.text else { return false }
+        return text.isEmpty
+    }
+    private var isFiltering: Bool {
+        return searchController.isActive && !searchBarIsEmpty
+    }
     
-    var places: Results<Cafe>!
+    private var places: Results<Cafe>!
     private let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
-    var ascendingSorting = true
+    private var ascendingSorting = true
     private let realm = try! Realm()
     
     override func viewDidLoad() {
@@ -20,6 +29,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         // Ensure content of database is loaded
         didAddNewPlace()
+        
+        // searchController setting
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search"
+        navigationItem.searchController = searchController
+        //navigationItem.hidesSearchBarWhenScrolling = true
+        definesPresentationContext = true
         
         view.backgroundColor = .black
         
@@ -65,14 +82,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // MARK: - TableView DataSource and Delegate Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return places.count
+        if isFiltering {
+            return filteredPlaces.count
+        }
+        return places.isEmpty ? 0 : places.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CellTableViewControllerForViewController", for: indexPath) as! CellTableViewControllerForViewController
         cell.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         
-        let place = places[indexPath.row]
+        var place = Cafe()
+        if isFiltering {
+            place = filteredPlaces[indexPath.row]
+        } else {
+            place = places[indexPath.row]
+        }
         
         // Setting database content to cell's elements
         cell.cellName.text = place.name
@@ -115,7 +140,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // MARK: - Editing of cell
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let placeForEditing = places[indexPath.row]
+        let placeForEditing: Cafe
+        if isFiltering {
+            placeForEditing = filteredPlaces![indexPath.row]
+        } else {
+            placeForEditing = places[indexPath.row]
+        }
+        
         let editingScreen = AddingNewPlace()
         editingScreen.currentCafe = placeForEditing
         editingScreen.delegateToUpdateTableView = self
@@ -170,5 +201,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 extension UINavigationController {
     func setupNavigationBarTextColor() {
         self.navigationBar.tintColor = .black
+    }
+}
+
+extension ViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filteredContentForSearchText(searchController.searchBar.text!)
+    }
+
+    private func filteredContentForSearchText(_ searchText: String) {
+        filteredPlaces = places.filter("name CONTAINS[c] %@ OR location CONTAINS[c] %@", searchText, searchText)
+        tableView.reloadData()
     }
 }
