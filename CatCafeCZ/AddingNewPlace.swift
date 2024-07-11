@@ -89,7 +89,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // MARK: - UITableView setting
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 5
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -170,6 +170,8 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
             return 250
+        } else if indexPath.row == 4 {
+            return 75
         } else {
             return 75
         }

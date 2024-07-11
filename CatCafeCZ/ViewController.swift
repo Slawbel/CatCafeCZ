@@ -41,7 +41,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         view.backgroundColor = .black
         
         segmentedControl.selectedSegmentIndex = 0
-        segmentedControl.backgroundColor = .white
+        segmentedControl.backgroundColor = .lightGray
         segmentedControl.addTarget(self, action: #selector(sortingSelection), for: .valueChanged)
         
         tableView.dataSource = self
@@ -68,15 +68,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     private func setupConstraints() {
         // Constraints for segmented control
         segmentedControl.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.bottom.equalTo(view.snp.bottom)
             make.leading.trailing.equalTo(view)
-            make.height.equalTo(50)
+            make.height.equalTo(70)
         }
         
         // Constraints for table view
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(segmentedControl.snp.bottom)
-            make.leading.trailing.bottom.equalTo(view)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top) // Changed to safeAreaLayoutGuide.snp.top
+            make.bottom.equalTo(segmentedControl.snp.top)
+            make.leading.trailing.equalTo(view)
         }
     }
     

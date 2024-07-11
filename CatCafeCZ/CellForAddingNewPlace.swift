@@ -8,6 +8,7 @@ class CellForAddingNewPlace: UITableViewCell {
         case 1: return CustomCellName()
         case 2: return CustomCellLocation()
         case 3: return CustomCellPlace()
+        case 4: return RatingControl()
         default: return UITableViewCell()
         }
     }
