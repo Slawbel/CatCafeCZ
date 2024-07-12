@@ -104,6 +104,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.cellName.text = place.name
         cell.setupLocation(textLocation: place.location)
         cell.setupType(textType: place.type)
+        cell.ratingView.rating = place.rating
         
         // Setting template image or image from camera or album
         if let imageData = place.imageData, let image = UIImage(data: imageData) {
