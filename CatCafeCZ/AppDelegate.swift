@@ -8,11 +8,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
+        
         // check in case if migration is needed
+        let schemaVersion: UInt64 = 4
+        
         let config = Realm.Configuration(
-            schemaVersion: 1,
+            schemaVersion: schemaVersion,
             migrationBlock: { migration, oldSchemaVersion in
-                if oldSchemaVersion < 1 {
+                if oldSchemaVersion < schemaVersion {
                 }
             }
         )

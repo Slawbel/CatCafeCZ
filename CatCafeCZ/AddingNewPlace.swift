@@ -4,15 +4,19 @@ protocol ArgumentsOfPlaceDelegate: AnyObject {
     func initializeNameOfPlace(name: String)
     func initializeLocationOfPlace(location: String?)
     func initializeTypeOfPlace( type: String?)
+    func initializeRating(rating: Double!)
 }
 
 class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, ArgumentsOfPlaceDelegate {
+
+    
     private var tableView = UITableView()
     
     private var selectedImage: UIImage?
     private var nameOfPlace: String = ""
     private var locationOfPlace: String?
     private var typeOfPlace: String?
+    private var rating: Double = 0.0
     
     var currentCafe: Cafe?
     
@@ -67,7 +71,8 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
     // adding of content to DB
     @objc private func saveTapped() {
         let imageData = selectedImage?.pngData()
-        let newPlace = Cafe(name: nameOfPlace, location: locationOfPlace, type: typeOfPlace, imageData: imageData)
+
+        let newPlace = Cafe(name: nameOfPlace, location: locationOfPlace, type: typeOfPlace, imageData: imageData, rating: rating)
         if let currentCafe = currentCafe {
             do {
                 try realm.write {
@@ -75,6 +80,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
                     currentCafe.location = newPlace.location
                     currentCafe.type = newPlace.type
                     currentCafe.imageData = newPlace.imageData
+                    currentCafe.rating = newPlace.rating
                 }
             } catch {
                 print("Error updating currentCafe: \(error)")
@@ -115,6 +121,9 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
                     customCellPlace.delegate = self
                     customCellPlace.placeType.delegate = self
                     customCellPlace.placeType.text = currentCafe?.type
+                } else if let ratingControl = cell as? RatingControl {
+                    ratingControl.delegate = self
+                    ratingControl.rating = Int(currentCafe!.rating)
                 } else if let customCellImage = cell as? CustomCellImage {
                     if currentCafe?.imageData != nil {
                         let data = currentCafe?.imageData
@@ -138,6 +147,9 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
                 customCellLocation.delegate = self
                 customCellLocation.placeLocation.delegate = self
                 customCellLocation.placeLocation.text = locationOfPlace
+            } else if let ratingControl = cell as? RatingControl {
+                ratingControl.delegate = self
+                ratingControl.rating = Int(currentCafe!.rating)
             } else if let customCellPlace = cell as? CustomCellPlace {
                 customCellPlace.delegate = self
                 customCellPlace.placeType.delegate = self
@@ -288,6 +300,10 @@ extension AddingNewPlace: UIImagePickerControllerDelegate {
         if type != nil {
             self.typeOfPlace = type
         }
+    }
+    
+    func initializeRating(rating: Double!) {
+        self.rating = rating
     }
 
 

@@ -5,10 +5,17 @@ class RatingControl: UITableViewCell {
     internal let stack = UIStackView()
     
     internal var ratingButtons = [UIButton]()
-    internal var rating = 0
+    var rating = 0 {
+        didSet {
+            updateButtonSelectionState()
+            delegate?.initializeRating(rating: Double(rating))
+        }
+    }
     
     internal var starSize: Int = 44
     internal var starCount: Int = 5
+    
+    weak var delegate: ArgumentsOfPlaceDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
