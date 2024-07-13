@@ -149,7 +149,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
                 customCellLocation.placeLocation.text = locationOfPlace
             } else if let ratingControl = cell as? RatingControl {
                 ratingControl.delegate = self
-                ratingControl.rating = 0
+                ratingControl.rating = 1
             } else if let customCellPlace = cell as? CustomCellPlace {
                 customCellPlace.delegate = self
                 customCellPlace.placeType.delegate = self

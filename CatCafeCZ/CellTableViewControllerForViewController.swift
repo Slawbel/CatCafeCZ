@@ -30,11 +30,10 @@ class CellTableViewControllerForViewController: UITableViewCell {
         cellPlaceType.text = "Third label"
         
         ratingView.settings.fillMode = .full
-        ratingView.settings.filledColor = .orange
-        ratingView.settings.emptyBorderColor = .orange
+        ratingView.settings.filledColor = .black
+        ratingView.settings.emptyBorderColor = .black
         ratingView.settings.emptyBorderWidth = 1
         ratingView.settings.starMargin = 0
-        //ratingView.rating = 5
         
         contentView.addSubview(cellImage)
         contentView.addSubview(cellName)

@@ -92,13 +92,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CellTableViewControllerForViewController", for: indexPath) as! CellTableViewControllerForViewController
         cell.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        
-        var place = Cafe()
-        if isFiltering {
-            place = filteredPlaces[indexPath.row]
-        } else {
-            place = places[indexPath.row]
-        }
+    
+        let place = isFiltering ? filteredPlaces[indexPath.row] : places[indexPath.row]
         
         // Setting database content to cell's elements
         cell.cellName.text = place.name
@@ -142,12 +137,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // MARK: - Editing of cell
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let placeForEditing: Cafe
-        if isFiltering {
-            placeForEditing = filteredPlaces![indexPath.row]
-        } else {
-            placeForEditing = places[indexPath.row]
-        }
+        let placeForEditing = isFiltering ? filteredPlaces[indexPath.row] : places[indexPath.row]
+
         
         let editingScreen = AddingNewPlace()
         editingScreen.currentCafe = placeForEditing
