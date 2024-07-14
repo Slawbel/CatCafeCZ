@@ -63,6 +63,14 @@ class CustomCellName: UITableViewCell, UITextFieldDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(false, animated: animated)
+    }
+    
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        super.setHighlighted(false, animated: animated)
+    }
+    
     @objc private func textFieldDidChange(_ textField: UITextField) {
         if let text = textField.text {
             self.delegate?.initializeNameOfPlace(name: text)

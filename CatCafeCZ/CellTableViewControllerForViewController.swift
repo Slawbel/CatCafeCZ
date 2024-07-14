@@ -87,7 +87,13 @@ class CellTableViewControllerForViewController: UITableViewCell {
         cellPlaceType.text = textType
     }
     
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(false, animated: animated)
+    }
     
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        super.setHighlighted(false, animated: animated)
+    }
     
     @available(*, unavailable)
     required init?(coder _: NSCoder) {

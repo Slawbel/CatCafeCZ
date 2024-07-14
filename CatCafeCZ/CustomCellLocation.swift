@@ -69,4 +69,12 @@ class CustomCellLocation: UITableViewCell, UITextFieldDelegate {
         super.prepareForReuse()
         placeLocation.removeTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(false, animated: animated)
+    }
+    
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        super.setHighlighted(false, animated: animated)
+    }
 }

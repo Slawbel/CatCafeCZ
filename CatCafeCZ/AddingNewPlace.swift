@@ -40,7 +40,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(CellForAddingNewPlace.self, forCellReuseIdentifier: "CellForAddingNewPlace")
-        tableView.allowsSelection = false
+        tableView.allowsSelection = true
         tableView.isScrollEnabled = true
         tableView.backgroundColor = .black
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
