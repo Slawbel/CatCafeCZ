@@ -25,7 +25,6 @@
 		A2C224632BC6D6760027A521 /* StoresManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C224622BC6D6760027A521 /* StoresManager.swift */; };
 		A2C271E02B6BBC23009E40C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C271DF2B6BBC23009E40C6 /* AppDelegate.swift */; };
 		A2C271E42B6BBC23009E40C6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C271E32B6BBC23009E40C6 /* ViewController.swift */; };
-		A2C271EA2B6BBC23009E40C6 /* CatCafeCZ.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A2C271E82B6BBC23009E40C6 /* CatCafeCZ.xcdatamodeld */; };
 		A2C271EC2B6BBC25009E40C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2C271EB2B6BBC25009E40C6 /* Assets.xcassets */; };
 		A2C271FA2B6BBC25009E40C6 /* CatCafeCZTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C271F92B6BBC25009E40C6 /* CatCafeCZTests.swift */; };
 		A2C272042B6BBC25009E40C6 /* CatCafeCZUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C272032B6BBC25009E40C6 /* CatCafeCZUITests.swift */; };
@@ -69,7 +68,6 @@
 		A2C271DC2B6BBC23009E40C6 /* CatCafeCZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatCafeCZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2C271DF2B6BBC23009E40C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A2C271E32B6BBC23009E40C6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		A2C271E92B6BBC23009E40C6 /* CatCafeCZ.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CatCafeCZ.xcdatamodel; sourceTree = "<group>"; };
 		A2C271EB2B6BBC25009E40C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A2C271F02B6BBC25009E40C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A2C271F52B6BBC25009E40C6 /* CatCafeCZTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CatCafeCZTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,12 +143,11 @@
 			children = (
 				A2C271E32B6BBC23009E40C6 /* ViewController.swift */,
 				A2C272182B6BEA7D009E40C6 /* CellTableViewControllerForViewController.swift */,
-				A212B8AB2C431E830088129A /* MapViewController.swift */,
 				A268CC672B73C1DD004A7DEA /* AddingNewPlace.swift */,
 				A268CC692B73ED16004A7DEA /* CellForAddingNewPlace.swift */,
 				A2C271EB2B6BBC25009E40C6 /* Assets.xcassets */,
 				A2C271F02B6BBC25009E40C6 /* Info.plist */,
-				A2C271E82B6BBC23009E40C6 /* CatCafeCZ.xcdatamodeld */,
+				A212B8AB2C431E830088129A /* MapViewController.swift */,
 				A268CC652B73AB06004A7DEA /* CafeModel.swift */,
 				A2C224622BC6D6760027A521 /* StoresManager.swift */,
 				A24B28742B934E4F004CA796 /* LaunchScreen.storyboard */,
@@ -334,7 +331,6 @@
 				A268CC682B73C1DD004A7DEA /* AddingNewPlace.swift in Sources */,
 				A24B28812B976F5C004CA796 /* CustomCellLocation.swift in Sources */,
 				A24B28852B978341004CA796 /* CustomCellImage.swift in Sources */,
-				A2C271EA2B6BBC23009E40C6 /* CatCafeCZ.xcdatamodeld in Sources */,
 				A212B8AC2C431E830088129A /* MapViewController.swift in Sources */,
 				A268CC662B73AB06004A7DEA /* CafeModel.swift in Sources */,
 				A268CC6A2B73ED16004A7DEA /* CellForAddingNewPlace.swift in Sources */,
@@ -747,19 +743,6 @@
 			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
-
-/* Begin XCVersionGroup section */
-		A2C271E82B6BBC23009E40C6 /* CatCafeCZ.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				A2C271E92B6BBC23009E40C6 /* CatCafeCZ.xcdatamodel */,
-			);
-			currentVersion = A2C271E92B6BBC23009E40C6 /* CatCafeCZ.xcdatamodel */;
-			path = CatCafeCZ.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = A2C271D42B6BBC23009E40C6 /* Project object */;
 }

@@ -30,8 +30,7 @@ class CustomCellImage: UITableViewCell {
     }
     
     internal func setupButtonMapSettings() {
-        buttonMap.setTitle("Map", for: .normal)
-        buttonMap.backgroundColor = .black
+        buttonMap.setImage(UIImage(named: "map"), for: .normal)
         buttonMap.setTitleColor(.orange, for: .normal)
         buttonMap.layer.cornerRadius = 10
     }
