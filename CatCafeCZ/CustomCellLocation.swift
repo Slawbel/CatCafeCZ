@@ -12,14 +12,14 @@ class CustomCellLocation: UITableViewCell, UITextFieldDelegate {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         self.addLocationStackView.layer.cornerRadius = 20
-        self.addLocationStackView.axis = .vertical
+        //self.addLocationStackView.axis = .vertical
         
         self.addLocationLabel.font = UIFont.systemFont(ofSize: 19, weight: .thin)
         self.addLocationLabel.text = "Location"
  
         self.placeLocation.attributedPlaceholder = NSAttributedString(string: " Enter location of place here", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
         self.placeLocation.backgroundColor = .black
-        self.placeLocation.layer.cornerRadius = 10
+        //self.placeLocation.layer.cornerRadius = 10
         self.placeLocation.autocapitalizationType = .sentences
         self.placeLocation.returnKeyType = .done
         self.placeLocation.textColor = .white

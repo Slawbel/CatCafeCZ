@@ -11,10 +11,10 @@ class CustomCellName: UITableViewCell, UITextFieldDelegate {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        addNameStackView.layer.cornerRadius = 20
+        //addNameStackView.layer.cornerRadius = 20
         addNameStackView.axis = .vertical
         
-        self.addNameStackView.layer.cornerRadius = 20
+        //self.addNameStackView.layer.cornerRadius = 20
         self.addNameStackView.axis = .vertical
         
         self.addNameLabel.font = UIFont.systemFont(ofSize: 19, weight: .thin)
@@ -22,7 +22,7 @@ class CustomCellName: UITableViewCell, UITextFieldDelegate {
         
         self.placeName.attributedPlaceholder = NSAttributedString(string: " Enter name of place here", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
         self.placeName.backgroundColor = .black
-        self.placeName.layer.cornerRadius = 10
+        //self.placeName.layer.cornerRadius = 10
         self.placeName.autocapitalizationType = .sentences
         self.placeName.returnKeyType = .done
         self.placeName.textColor = .white

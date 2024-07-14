@@ -40,7 +40,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(CellForAddingNewPlace.self, forCellReuseIdentifier: "CellForAddingNewPlace")
-        tableView.allowsSelection = true
+        tableView.allowsSelection = false
         tableView.isScrollEnabled = true
         tableView.backgroundColor = .black
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
@@ -133,7 +133,8 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
                         customCellImage.setupImageByText(text: "Photo")
                     }
                     customCellImage.placeImage.clipsToBounds = true
-                    customCellImage.placeImage.layer.cornerRadius = 20
+                    //customCellImage.placeImage.layer.cornerRadius = 20
+                    customCellImage.buttonMap.addTarget(self, action: #selector(buttonMapTapped), for: .touchUpInside)
                 }
             }
             
@@ -166,6 +167,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
             } else {
                 customCellImage.setupImageByImage(image: selectedImage!)
             }
+            customCellImage.buttonMap.addTarget(self, action: #selector(buttonMapTapped), for: .touchUpInside)
         }
         
         // blocking of button Save
@@ -173,10 +175,15 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
             (cell as? CustomCellName)?.placeName.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         }
 
-        cell.layer.cornerRadius = 20
+        //cell.layer.cornerRadius = 20
         cell.backgroundColor = .systemGray6
         
         return cell
+    }
+    
+    @objc func buttonMapTapped() {
+        let mapVC = MapViewController()
+        Coordinator.openAnotherScreen(from: self, to: mapVC)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -220,7 +227,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
             let cancel = UIAlertAction(title: "Cancel", style: .cancel)
             actionSheet.addAction(camera)
             actionSheet.addAction(photo)
-            if let checkForNil = self.selectedImage {
+            if self.selectedImage != nil {
                 actionSheet.addAction(clear)
             }
             actionSheet.addAction(cancel)

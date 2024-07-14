@@ -11,7 +11,7 @@ class CustomCellPlace: UITableViewCell, UITextFieldDelegate {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.addTypeStackView.layer.cornerRadius = 20
+        //self.addTypeStackView.layer.cornerRadius = 20
         self.addTypeStackView.axis = .vertical
         
         self.addTypeLabel.font = UIFont.systemFont(ofSize: 19, weight: .thin)
@@ -19,7 +19,7 @@ class CustomCellPlace: UITableViewCell, UITextFieldDelegate {
  
         self.placeType.attributedPlaceholder = NSAttributedString(string: " Enter type of place here", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
         self.placeType.backgroundColor = .black
-        self.placeType.layer.cornerRadius = 10
+        //self.placeType.layer.cornerRadius = 10
         self.placeType.autocapitalizationType = .sentences
         self.placeType.returnKeyType = .done
         self.placeType.textColor = .white

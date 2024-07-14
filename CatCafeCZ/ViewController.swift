@@ -52,7 +52,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.navigationItem.title = "Select your meal"
         self.navigationController?.navigationBar.backgroundColor = .orange
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "ChakraPetch-Regular", size: 20)!]
-        self.navigationController?.navigationBar.layer.cornerRadius = 20
+        //self.navigationController?.navigationBar.layer.cornerRadius = 20
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addTapped))
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "AZ"), style: .plain, target: self, action: #selector(reversedSorting))
@@ -108,11 +108,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             cell.cellImage.image = UIImage(named: "imagePlaceholder")
         }
         
-        cell.cellImage.layer.cornerRadius = 50
+        //cell.cellImage.layer.cornerRadius = 50
         cell.cellImage.clipsToBounds = true
         
         cell.backgroundColor = .white
-        cell.layer.cornerRadius = 50
+        //cell.layer.cornerRadius = 50
         return cell
     }
 
