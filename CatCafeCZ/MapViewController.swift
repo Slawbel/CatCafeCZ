@@ -6,6 +6,8 @@ class MapViewController: UIViewController {
     let map = MKMapView()
     let closeButton = UIButton()
     
+    var place: Cafe!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -15,6 +17,7 @@ class MapViewController: UIViewController {
         setupMapSettings()
         setupCloseButtonView()
         setupCloseButtonSettings()
+        setPlace()
     }
     
     internal func setupMapView() {
@@ -43,6 +46,28 @@ class MapViewController: UIViewController {
     internal func setupCloseButtonSettings() {
         closeButton.setImage(UIImage(named: "cancelMap"), for: .normal)
         closeButton.addTarget(self, action: #selector(closeMap), for: .touchUpInside)
+    }
+    
+    internal func setPlace() {
+        guard let location = place.location else { return }
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(location) { (placemarks, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            guard let placemarks = placemarks else { return }
+            let placemark = placemarks.first
+            let annotation = MKPointAnnotation()
+            annotation.title = self.place.name
+            annotation.subtitle = self.place.type
+            
+            guard let placemarkLocation = placemark?.location else { return }
+            annotation.coordinate = placemarkLocation.coordinate
+            self.map.showAnnotations([annotation], animated: true)
+            self.map.selectAnnotation(annotation, animated: true)
+        }
     }
     
     @objc func closeMap() {

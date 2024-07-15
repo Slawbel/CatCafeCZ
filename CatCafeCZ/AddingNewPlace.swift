@@ -183,6 +183,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @objc func buttonMapTapped() {
         let mapVC = MapViewController()
+        mapVC.place = currentCafe
         Coordinator.openAnotherScreen(from: self, to: mapVC)
     }
     
