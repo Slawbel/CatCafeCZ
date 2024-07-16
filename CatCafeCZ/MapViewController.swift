@@ -7,9 +7,11 @@ class MapViewController: UIViewController {
     let closeButton = UIButton()
     
     var place: Cafe!
+    let annotationIdentifier = "annotationIdentifier"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        map.delegate = self
         
         self.navigationController?.navigationBar.isHidden = true
         
@@ -73,5 +75,31 @@ class MapViewController: UIViewController {
     @objc func closeMap() {
         Coordinator.closeAnotherScreen(from: self)
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.navigationBar.isHidden = false
+    }
+}
 
+extension MapViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard !(annotation is MKUserLocation) else { return nil }
+        
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier) as? MKPinAnnotationView
+        if annotationView == nil {
+            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+            annotationView?.canShowCallout = true
+        }
+        
+        if let imageData = place.imageData {
+            let imageViewForPlace = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+            imageViewForPlace.layer.cornerRadius = 10
+            imageViewForPlace.clipsToBounds = true
+            imageViewForPlace.image = UIImage(data: imageData)
+            annotationView?.rightCalloutAccessoryView = imageViewForPlace
+        }
+        
+        return annotationView
+    }
 }
