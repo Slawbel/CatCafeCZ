@@ -133,7 +133,6 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
                         customCellImage.setupImageByText(text: "Photo")
                     }
                     customCellImage.placeImage.clipsToBounds = true
-                    //customCellImage.placeImage.layer.cornerRadius = 20
                     customCellImage.buttonMap.addTarget(self, action: #selector(buttonMapTapped), for: .touchUpInside)
                 }
             }
@@ -163,7 +162,6 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         if let customCellImage = cell as? CustomCellImage {
             if selectedImage == nil {
                 customCellImage.setupImageByText(text: "Photo")
-                //self.selectedImage = UIImage(named: "imagePlaceholder")
             } else {
                 customCellImage.setupImageByImage(image: selectedImage!)
             }
@@ -183,7 +181,10 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @objc func buttonMapTapped() {
         let mapVC = MapViewController()
-        mapVC.place = currentCafe
+        mapVC.place.name = self.nameOfPlace
+        mapVC.place.location = self.locationOfPlace
+        mapVC.place.type = self.typeOfPlace
+        mapVC.place.imageData = selectedImage?.pngData() 
         Coordinator.openAnotherScreen(from: self, to: mapVC)
     }
     

@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>To set path from current location to point destination</string>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) photo use</string>
 	<key>CFBundleSignature</key>

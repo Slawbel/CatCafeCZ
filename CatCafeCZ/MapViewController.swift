@@ -1,13 +1,15 @@
 import UIKit
 import MapKit
 import SnapKit
+import CoreLocation
 
 class MapViewController: UIViewController {
     let map = MKMapView()
     let closeButton = UIButton()
     
-    var place: Cafe!
+    var place: Cafe = Cafe()
     let annotationIdentifier = "annotationIdentifier"
+    let locationMan = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +22,7 @@ class MapViewController: UIViewController {
         setupCloseButtonView()
         setupCloseButtonSettings()
         setPlace()
+        checkLocationServices()
     }
     
     internal func setupMapView() {
@@ -80,6 +83,58 @@ class MapViewController: UIViewController {
         super.viewWillDisappear(animated)
         self.navigationController?.navigationBar.isHidden = false
     }
+    
+    // application of locationManager
+    internal func checkLocationServices() {
+        if CLLocationManager.locationServicesEnabled() {
+            setupLocationMan()
+            checkLocationAuthorization()
+        } else{
+            // show alert controller
+            showAlertForNotEnabledLocationServis()
+        }
+    }
+    
+    // setting of locationManager
+    internal func setupLocationMan() {
+        locationMan.delegate = self
+        locationMan.desiredAccuracy =  kCLLocationAccuracyBest
+    }
+    
+    internal func checkLocationAuthorization() {
+        switch CLLocationManager().authorizationStatus {
+        case .authorizedWhenInUse:
+            map.showsUserLocation = true
+            break
+        case .denied:
+            showAlertForDeniedAccedToLocation()
+            break
+        case .notDetermined:
+            locationMan.requestWhenInUseAuthorization()
+        case .restricted:
+            break
+        case .authorizedAlways:
+            break
+        @unknown default:
+            break
+        }
+    }
+    
+    internal func showAlertForNotEnabledLocationServis() {
+        let alertController = UIAlertController(title: "Location servis is not enabled", message: "Enable location service", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Close", style: .default) { (action) in
+            return
+        }
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    internal func showAlertForDeniedAccedToLocation() {
+        let alertController = UIAlertController(title: "Acces to your location was denied", message: "Permit access to your location manually in settings", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Close", style: .default) { (action) in
+            return
+        }
+    }
 }
 
 extension MapViewController: MKMapViewDelegate {
@@ -99,7 +154,12 @@ extension MapViewController: MKMapViewDelegate {
             imageViewForPlace.image = UIImage(data: imageData)
             annotationView?.rightCalloutAccessoryView = imageViewForPlace
         }
-        
         return annotationView
+    }
+}
+
+extension MapViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        checkLocationAuthorization()
     }
 }
