@@ -187,6 +187,9 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         mapVC.place.location = self.locationOfPlace
         mapVC.place.type = self.typeOfPlace
         mapVC.place.imageData = selectedImage?.pngData() 
+        mapVC.pinView.isHidden = true
+        mapVC.addressLabel.isHidden = true
+        mapVC.buttonDone.isHidden = true
         Coordinator.openAnotherScreen(from: self, to: mapVC)
     }
     

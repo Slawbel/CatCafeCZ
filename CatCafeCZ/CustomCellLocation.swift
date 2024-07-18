@@ -45,6 +45,7 @@ class CustomCellLocation: UITableViewCell, UITextFieldDelegate {
     }
     
     private func setupLabelConstraints() {
+        addLocationStackView.addArrangedSubview(addLocationLabel)
         addLocationLabel.snp.makeConstraints { make in
             make.height.equalTo(20)
         }
@@ -53,7 +54,6 @@ class CustomCellLocation: UITableViewCell, UITextFieldDelegate {
     private func setupLabelSettings() {
         addLocationLabel.font = UIFont.systemFont(ofSize: 19, weight: .thin)
         addLocationLabel.text = "Location"
-        addLocationStackView.addArrangedSubview(addLocationLabel)
     }
     
     private func setupTextFieldConstraints() {

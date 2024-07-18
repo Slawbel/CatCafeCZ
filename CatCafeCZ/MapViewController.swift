@@ -7,12 +7,14 @@ class MapViewController: UIViewController {
     let map = MKMapView()
     let closeButton = UIButton()
     let userLocationButton = UIButton()
+    let pinView = UIImageView()
+    let addressLabel = UILabel()
+    let buttonDone = UIButton()
     
     var place: Cafe = Cafe()
     let annotationIdentifier = "annotationIdentifier"
     let locationMan = CLLocationManager()
     let areaZoomSize: Double = 10000
-    var incomeSegueIdentifier = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,10 +24,22 @@ class MapViewController: UIViewController {
         
         setupMapView()
         setupMapSettings()
+        
         setupCloseButtonView()
         setupCloseButtonSettings()
+        
         setupUserLocationButtonView()
         setupUserLocationButtonSettings()
+        
+        setupPinViewConstraints()
+        setupPinViewSettings()
+        
+        setupAddressLabelConstraints()
+        setupAddressLabelSettings()
+        
+        setupButtonDoneConstraints()
+        setupButtonDoneSettings()
+        
         setPlace()
         checkLocationServices()
     }
@@ -33,7 +47,7 @@ class MapViewController: UIViewController {
     internal func setupMapView() {
         view.addSubview(map)
         map.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.edges.equalTo(view)
         }
     }
     
@@ -48,7 +62,7 @@ class MapViewController: UIViewController {
         view.addSubview(closeButton)
         closeButton.snp.makeConstraints { make in
             make.trailing.equalTo(view).inset(50)
-            make.top.equalTo(view).inset(100)
+            make.top.equalTo(view).inset(80)
             make.width.height.equalTo(25)
         }
     }
@@ -62,7 +76,7 @@ class MapViewController: UIViewController {
         view.addSubview(userLocationButton)
         userLocationButton.snp.makeConstraints { make in
             make.trailing.equalTo(view).inset(50)
-            make.bottom.equalTo(view).inset(70)
+            make.bottom.equalTo(view).inset(50)
             make.width.height.equalTo(40)
         }
     }
@@ -77,6 +91,59 @@ class MapViewController: UIViewController {
             let region = MKCoordinateRegion(center: location, latitudinalMeters: areaZoomSize, longitudinalMeters: areaZoomSize)
             map.setRegion(region, animated: true)
         }
+    }
+    
+    internal func setupPinViewConstraints() {
+        view.addSubview(pinView)
+        pinView.snp.makeConstraints { make in
+            make.width.height.equalTo(50)
+            make.centerX.equalTo(view)
+            make.centerY.equalTo(view).offset(-20)
+        }
+    }
+    
+    internal func setupPinViewSettings() {
+        pinView.image = UIImage(named: "pin")
+        pinView.translatesAutoresizingMaskIntoConstraints = false
+        pinView.contentMode = .scaleAspectFit
+    }
+    
+    internal func setupAddressLabelConstraints() {
+        view.addSubview(addressLabel)
+        addressLabel.snp.makeConstraints { make in
+            make.height.equalTo(36)
+            make.leading.trailing.equalTo(view).inset(20)
+            make.top.equalTo(view).inset(120)
+        }
+    }
+    
+    internal func setupAddressLabelSettings() {
+        addressLabel.font = UIFont.systemFont(ofSize: 30)
+        addressLabel.text = "Place pin"
+        addressLabel.backgroundColor?.withAlphaComponent(0)
+        addressLabel.textAlignment = .center
+    }
+    
+    internal func setupButtonDoneConstraints() {
+        view.addSubview(buttonDone)
+        buttonDone.snp.makeConstraints { make in
+            make.bottom.equalTo(view).inset(50)
+            make.width.greaterThanOrEqualTo(120)
+            make.height.equalTo(50)
+            make.centerX.equalTo(view)
+        }
+    }
+    
+    internal func setupButtonDoneSettings() {
+        buttonDone.setTitle("Done", for: .normal)
+        buttonDone.setTitleColor(.black, for: .normal)
+        buttonDone.titleLabel?.font = UIFont.systemFont(ofSize: 25)
+        buttonDone.backgroundColor?.withAlphaComponent(0)
+        buttonDone.addTarget(self, action: #selector(chooseAddress), for: .touchUpInside)
+    }
+    
+    @objc func chooseAddress() {
+        
     }
     
     internal func setPlace() {
