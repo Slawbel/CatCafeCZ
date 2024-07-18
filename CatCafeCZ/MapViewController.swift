@@ -12,6 +12,7 @@ class MapViewController: UIViewController {
     let annotationIdentifier = "annotationIdentifier"
     let locationMan = CLLocationManager()
     let areaZoomSize: Double = 10000
+    var incomeSegueIdentifier = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()

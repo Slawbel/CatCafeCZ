@@ -117,6 +117,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
                     customCellLocation.delegate = self
                     customCellLocation.placeLocation.delegate = self
                     customCellLocation.placeLocation.text = currentCafe?.location
+                    customCellLocation.mapButton.addTarget(self, action: #selector(findAddress), for: .touchUpInside)
                 } else if let customCellPlace = cell as? CustomCellPlace {
                     customCellPlace.delegate = self
                     customCellPlace.placeType.delegate = self
@@ -147,6 +148,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
                 customCellLocation.delegate = self
                 customCellLocation.placeLocation.delegate = self
                 customCellLocation.placeLocation.text = locationOfPlace
+                customCellLocation.mapButton.addTarget(self, action: #selector(findAddress), for: .touchUpInside)
             } else if let ratingControl = cell as? RatingControl {
                 ratingControl.delegate = self
                 ratingControl.rating = 1
@@ -185,6 +187,12 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         mapVC.place.location = self.locationOfPlace
         mapVC.place.type = self.typeOfPlace
         mapVC.place.imageData = selectedImage?.pngData() 
+        Coordinator.openAnotherScreen(from: self, to: mapVC)
+    }
+    
+    @objc func findAddress() {
+        let mapVC = MapViewController()
+        mapVC.showUserLocation()
         Coordinator.openAnotherScreen(from: self, to: mapVC)
     }
     
