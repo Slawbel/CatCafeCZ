@@ -6,10 +6,12 @@ import CoreLocation
 class MapViewController: UIViewController {
     let map = MKMapView()
     let closeButton = UIButton()
+    let userLocationButton = UIButton()
     
     var place: Cafe = Cafe()
     let annotationIdentifier = "annotationIdentifier"
     let locationMan = CLLocationManager()
+    let areaZoomSize: Double = 10000
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +23,8 @@ class MapViewController: UIViewController {
         setupMapSettings()
         setupCloseButtonView()
         setupCloseButtonSettings()
+        setupUserLocationButtonView()
+        setupUserLocationButtonSettings()
         setPlace()
         checkLocationServices()
     }
@@ -51,6 +55,27 @@ class MapViewController: UIViewController {
     internal func setupCloseButtonSettings() {
         closeButton.setImage(UIImage(named: "cancelMap"), for: .normal)
         closeButton.addTarget(self, action: #selector(closeMap), for: .touchUpInside)
+    }
+    
+    internal func setupUserLocationButtonView() {
+        view.addSubview(userLocationButton)
+        userLocationButton.snp.makeConstraints { make in
+            make.trailing.equalTo(view).inset(50)
+            make.bottom.equalTo(view).inset(70)
+            make.width.height.equalTo(40)
+        }
+    }
+    
+    internal func setupUserLocationButtonSettings() {
+        userLocationButton.setImage(UIImage(named: "userLocation"), for: .normal)
+        userLocationButton.addTarget(self, action: #selector(showUserLocation), for: .touchUpInside)
+    }
+    
+    @objc func showUserLocation() {
+        if let location = locationMan.location?.coordinate {
+            let region = MKCoordinateRegion(center: location, latitudinalMeters: areaZoomSize, longitudinalMeters: areaZoomSize)
+            map.setRegion(region, animated: true)
+        }
     }
     
     internal func setPlace() {
@@ -90,8 +115,9 @@ class MapViewController: UIViewController {
             setupLocationMan()
             checkLocationAuthorization()
         } else{
-            // show alert controller
-            showAlertForNotEnabledLocationServis()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.showAlert(title: "Location servis is not enabled", message: "Enable location service")
+            }
         }
     }
     
@@ -107,7 +133,9 @@ class MapViewController: UIViewController {
             map.showsUserLocation = true
             break
         case .denied:
-            showAlertForDeniedAccedToLocation()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.showAlert(title: "Acces to your location is denied", message: "To permit: Setting -> 'This app' -> Location")
+            }
             break
         case .notDetermined:
             locationMan.requestWhenInUseAuthorization()
@@ -120,20 +148,11 @@ class MapViewController: UIViewController {
         }
     }
     
-    internal func showAlertForNotEnabledLocationServis() {
-        let alertController = UIAlertController(title: "Location servis is not enabled", message: "Enable location service", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Close", style: .default) { (action) in
-            return
-        }
+    internal func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
         alertController.addAction(okAction)
         self.present(alertController, animated: true, completion: nil)
-    }
-    
-    internal func showAlertForDeniedAccedToLocation() {
-        let alertController = UIAlertController(title: "Acces to your location was denied", message: "Permit access to your location manually in settings", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Close", style: .default) { (action) in
-            return
-        }
     }
 }
 
