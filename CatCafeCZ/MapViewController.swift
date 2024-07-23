@@ -13,7 +13,7 @@ class MapViewController: UIViewController {
     
     var place: Cafe = Cafe()
     let annotationIdentifier = "annotationIdentifier"
-    let locationMan = CLLocationManager()
+    let locationManager = CLLocationManager()
     let areaZoomSize: Double = 10000
     
     override func viewDidLoad() {
@@ -87,7 +87,7 @@ class MapViewController: UIViewController {
     }
     
     @objc func showUserLocation() {
-        if let location = locationMan.location?.coordinate {
+        if let location = locationManager.location?.coordinate {
             let region = MKCoordinateRegion(center: location, latitudinalMeters: areaZoomSize, longitudinalMeters: areaZoomSize)
             map.setRegion(region, animated: true)
         }
@@ -118,8 +118,8 @@ class MapViewController: UIViewController {
     }
     
     internal func setupAddressLabelSettings() {
+        addressLabel.text = ""
         addressLabel.font = UIFont.systemFont(ofSize: 30)
-        addressLabel.text = "Place pin"
         addressLabel.backgroundColor?.withAlphaComponent(0)
         addressLabel.textAlignment = .center
     }
@@ -136,35 +136,34 @@ class MapViewController: UIViewController {
     
     internal func setupButtonDoneSettings() {
         buttonDone.setTitle("Done", for: .normal)
-        buttonDone.setTitleColor(.black, for: .normal)
+        buttonDone.setTitleColor(.white, for: .normal)
         buttonDone.titleLabel?.font = UIFont.systemFont(ofSize: 25)
         buttonDone.backgroundColor?.withAlphaComponent(0)
         buttonDone.addTarget(self, action: #selector(chooseAddress), for: .touchUpInside)
     }
     
     @objc func chooseAddress() {
-        
+        // Implement your logic for when the "Done" button is pressed
     }
     
     internal func setPlace() {
         guard let location = place.location else { return }
         let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString(location) { (placemarks, error) in
+        geocoder.geocodeAddressString(location) { [weak self] (placemarks, error) in
             if let error = error {
                 print(error)
                 return
             }
             
-            guard let placemarks = placemarks else { return }
-            let placemark = placemarks.first
+            guard let placemarks = placemarks, let placemark = placemarks.first else { return }
             let annotation = MKPointAnnotation()
-            annotation.title = self.place.name
-            annotation.subtitle = self.place.type
+            annotation.title = self?.place.name
+            annotation.subtitle = self?.place.type
             
-            guard let placemarkLocation = placemark?.location else { return }
+            guard let placemarkLocation = placemark.location else { return }
             annotation.coordinate = placemarkLocation.coordinate
-            self.map.showAnnotations([annotation], animated: true)
-            self.map.selectAnnotation(annotation, animated: true)
+            self?.map.showAnnotations([annotation], animated: true)
+            self?.map.selectAnnotation(annotation, animated: true)
         }
     }
     
@@ -177,42 +176,65 @@ class MapViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
     }
     
-    // application of locationManager
     internal func checkLocationServices() {
         if CLLocationManager.locationServicesEnabled() {
-            setupLocationMan()
+            setupLocationManager()
             checkLocationAuthorization()
-        } else{
+        } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.showAlert(title: "Location servis is not enabled", message: "Enable location service")
+                self.showAlert(title: "Location service is not enabled", message: "Enable location service")
             }
         }
     }
     
-    // setting of locationManager
-    internal func setupLocationMan() {
-        locationMan.delegate = self
-        locationMan.desiredAccuracy =  kCLLocationAccuracyBest
+    internal func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
     }
     
     internal func checkLocationAuthorization() {
-        switch CLLocationManager().authorizationStatus {
-        case .authorizedWhenInUse:
+        switch locationManager.authorizationStatus {
+        case .authorizedWhenInUse, .authorizedAlways:
             map.showsUserLocation = true
-            break
         case .denied:
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.showAlert(title: "Acces to your location is denied", message: "To permit: Setting -> 'This app' -> Location")
+                self.showAlert(title: "Access to your location is denied", message: "To permit: Settings -> 'This app' -> Location")
             }
-            break
         case .notDetermined:
-            locationMan.requestWhenInUseAuthorization()
+            locationManager.requestWhenInUseAuthorization()
         case .restricted:
-            break
-        case .authorizedAlways:
             break
         @unknown default:
             break
+        }
+    }
+    
+    private func getCenterAddress(for mapView: MKMapView) -> CLLocation {
+        let latitude = mapView.centerCoordinate.latitude
+        let longitude = mapView.centerCoordinate.longitude
+        return CLLocation(latitude: latitude, longitude: longitude)
+    }
+    
+    internal func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        let center = getCenterAddress(for: mapView)
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(center) { [weak self] (placemarks, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+            guard let placemarks = placemarks, let placemark = placemarks.first else { return }
+            let streetName = placemark.thoroughfare
+            let buildingNumber = placemark.subThoroughfare
+            DispatchQueue.main.async {
+                if let streetName = streetName, let buildingNumber = buildingNumber {
+                    self?.addressLabel.text = "\(streetName), \(buildingNumber)"
+                } else if let streetName = streetName {
+                    self?.addressLabel.text = streetName
+                } else {
+                    self?.addressLabel.text = ""
+                }
+            }
         }
     }
     
