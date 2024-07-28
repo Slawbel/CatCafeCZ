@@ -136,14 +136,15 @@ class MapViewController: UIViewController {
     
     internal func setupButtonDoneSettings() {
         buttonDone.setTitle("Done", for: .normal)
-        buttonDone.setTitleColor(.white, for: .normal)
+        buttonDone.setTitleColor(.black, for: .normal)
         buttonDone.titleLabel?.font = UIFont.systemFont(ofSize: 25)
         buttonDone.backgroundColor?.withAlphaComponent(0)
         buttonDone.addTarget(self, action: #selector(chooseAddress), for: .touchUpInside)
     }
     
     @objc func chooseAddress() {
-        // Implement your logic for when the "Done" button is pressed
+        NotificationCenter.default.post(name: NSNotification.Name("AddressNotification"), object: addressLabel.text)
+        closeMap()
     }
     
     internal func setPlace() {

@@ -12,6 +12,8 @@ class CustomCellLocation: UITableViewCell, UITextFieldDelegate {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(receiveAddress(_:)), name: NSNotification.Name("AddressNotification"), object: nil)
+        
         setupStackViewConstraints()
         setupStackViewSettings()
         
@@ -114,5 +116,12 @@ class CustomCellLocation: UITableViewCell, UITextFieldDelegate {
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(false, animated: animated)
+    }
+    
+    @objc func receiveAddress(_ notification: Notification) {
+        if let address = notification.object as? String {
+            placeLocation.text = address
+            textFieldDidChange(placeLocation)
+        }
     }
 }
