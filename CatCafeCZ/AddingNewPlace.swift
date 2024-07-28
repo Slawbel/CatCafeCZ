@@ -196,6 +196,7 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
     @objc func findAddress() {
         let mapVC = MapViewController()
         mapVC.showUserLocation()
+        mapVC.buttonDirection.isHidden = true
         Coordinator.openAnotherScreen(from: self, to: mapVC)
     }
     
