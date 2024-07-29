@@ -16,6 +16,7 @@
 		A24B28852B978341004CA796 /* CustomCellImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24B28842B978341004CA796 /* CustomCellImage.swift */; };
 		A24F95932C25CC1400FA5938 /* RatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24F95922C25CC1400FA5938 /* RatingControl.swift */; };
 		A25E630D2BCEB0E3006B2D0A /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25E630C2BCEB0E3006B2D0A /* Coordinator.swift */; };
+		A25E8C542C57DFA8002E9133 /* MapSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25E8C532C57DFA8002E9133 /* MapSettings.swift */; };
 		A268CC612B719261004A7DEA /* ChakraPetch-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A268CC602B71803A004A7DEA /* ChakraPetch-Regular.ttf */; };
 		A268CC662B73AB06004A7DEA /* CafeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A268CC652B73AB06004A7DEA /* CafeModel.swift */; };
 		A268CC682B73C1DD004A7DEA /* AddingNewPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A268CC672B73C1DD004A7DEA /* AddingNewPlace.swift */; };
@@ -60,6 +61,7 @@
 		A24B28842B978341004CA796 /* CustomCellImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCellImage.swift; sourceTree = "<group>"; };
 		A24F95922C25CC1400FA5938 /* RatingControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
 		A25E630C2BCEB0E3006B2D0A /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		A25E8C532C57DFA8002E9133 /* MapSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettings.swift; sourceTree = "<group>"; };
 		A268CC602B71803A004A7DEA /* ChakraPetch-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ChakraPetch-Regular.ttf"; path = "CatCafeCZ/Fonts/ChakraPetch-Regular.ttf"; sourceTree = SOURCE_ROOT; };
 		A268CC652B73AB06004A7DEA /* CafeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeModel.swift; sourceTree = "<group>"; };
 		A268CC672B73C1DD004A7DEA /* AddingNewPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingNewPlace.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 		A2C271D32B6BBC23009E40C6 = {
 			isa = PBXGroup;
 			children = (
+				A25E8C532C57DFA8002E9133 /* MapSettings.swift */,
 				A268CC5F2B71801E004A7DEA /* Fonts */,
 				A2C272122B6BBFB9009E40C6 /* .gitignore */,
 				A2C271DE2B6BBC23009E40C6 /* CatCafeCZ */,
@@ -331,6 +334,7 @@
 				A268CC682B73C1DD004A7DEA /* AddingNewPlace.swift in Sources */,
 				A24B28812B976F5C004CA796 /* CustomCellLocation.swift in Sources */,
 				A24B28852B978341004CA796 /* CustomCellImage.swift in Sources */,
+				A25E8C542C57DFA8002E9133 /* MapSettings.swift in Sources */,
 				A212B8AC2C431E830088129A /* MapViewController.swift in Sources */,
 				A268CC662B73AB06004A7DEA /* CafeModel.swift in Sources */,
 				A268CC6A2B73ED16004A7DEA /* CellForAddingNewPlace.swift in Sources */,

@@ -186,19 +186,19 @@ class AddingNewPlace: UIViewController, UITableViewDelegate, UITableViewDataSour
         mapVC.place.name = self.nameOfPlace
         mapVC.place.location = self.locationOfPlace
         mapVC.place.type = self.typeOfPlace
-        mapVC.place.imageData = selectedImage?.pngData() 
+        mapVC.place.imageData = selectedImage?.pngData()
         mapVC.pinView.isHidden = true
         mapVC.addressLabel.isHidden = true
         mapVC.buttonDone.isHidden = true
         Coordinator.openAnotherScreen(from: self, to: mapVC)
     }
-    
+
     @objc func findAddress() {
         let mapVC = MapViewController()
-        mapVC.showUserLocation()
         mapVC.buttonDirection.isHidden = true
         Coordinator.openAnotherScreen(from: self, to: mapVC)
     }
+
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
