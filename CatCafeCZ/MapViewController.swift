@@ -15,9 +15,15 @@ class MapViewController: UIViewController {
     var place: Cafe = Cafe()
     let annotationIdentifier = "annotationIdentifier"
     let locationManager = CLLocationManager()
-    let areaZoomSize: Double = 10000
+    let areaZoomSize: Double = 1000
     var placeCoordinate: CLLocationCoordinate2D?
+    var directionsArray: [MKDirections] = []
     var activityIndicator: UIActivityIndicatorView?
+    var previousLocation: CLLocation? {
+        didSet {
+            startTracking()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,6 +105,13 @@ class MapViewController: UIViewController {
         }
     }
     
+    private func startTracking() {
+        guard previousLocation != nil else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.showUserLocation()
+        }
+    }
+    
     internal func setupPinViewConstraints() {
         view.addSubview(pinView)
         pinView.snp.makeConstraints { make in
@@ -167,6 +180,10 @@ class MapViewController: UIViewController {
             showAlert(title: "Error", message: "Current location isn't found")
             return
         }
+        
+        locationManager.startUpdatingLocation()
+        previousLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
+        
         guard let request = createDirectionRequest(from: location) else {
             showAlert(title: "Error", message: "Destination isn't found")
             return
@@ -178,6 +195,7 @@ class MapViewController: UIViewController {
         }
         
         let directions = MKDirections(request: request)
+        resetMapView(withNew: directions)
         directions.calculate { [weak self] (response, error) in
             DispatchQueue.main.async {
                 self?.hideActivityIndicator() // Hide activity indicator
@@ -221,6 +239,13 @@ class MapViewController: UIViewController {
     @objc func chooseAddress() {
         NotificationCenter.default.post(name: NSNotification.Name("AddressNotification"), object: addressLabel.text)
         closeMap()
+    }
+    
+    private func resetMapView(withNew directions: MKDirections) {
+        map.removeOverlays(map.overlays)
+        directionsArray.append(directions)
+        let _ = directionsArray.map { $0.cancel() }
+        directionsArray.removeAll()
     }
     
     internal func setPlace() {
@@ -296,6 +321,13 @@ class MapViewController: UIViewController {
     internal func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         let center = getCenterAddress(for: mapView)
         let geocoder = CLGeocoder()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.previousLocation = center
+        }
+        
+        geocoder.cancelGeocode()
+        
         geocoder.reverseGeocodeLocation(center) { [weak self] (placemarks, error) in
             if let error = error {
                 print(error)
