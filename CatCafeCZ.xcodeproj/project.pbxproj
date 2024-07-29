@@ -110,6 +110,66 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A25E8C552C580B27002E9133 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				A212B8AB2C431E830088129A /* MapViewController.swift */,
+				A268CC672B73C1DD004A7DEA /* AddingNewPlace.swift */,
+				A2C271E32B6BBC23009E40C6 /* ViewController.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		A25E8C562C580B3D002E9133 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A268CC652B73AB06004A7DEA /* CafeModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A25E8C572C580B71002E9133 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				A24B28842B978341004CA796 /* CustomCellImage.swift */,
+				A2C272182B6BEA7D009E40C6 /* CellTableViewControllerForViewController.swift */,
+				A24B28822B97749B004CA796 /* CustomCellPlace.swift */,
+				A24B287E2B975F7A004CA796 /* CustomCellName.swift */,
+				A24B28802B976F5C004CA796 /* CustomCellLocation.swift */,
+				A24F95922C25CC1400FA5938 /* RatingControl.swift */,
+				A268CC692B73ED16004A7DEA /* CellForAddingNewPlace.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		A25E8C582C580B9A002E9133 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				A2C224622BC6D6760027A521 /* StoresManager.swift */,
+				A25E8C532C57DFA8002E9133 /* MapSettings.swift */,
+				A25E630C2BCEB0E3006B2D0A /* Coordinator.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		A25E8C592C580C23002E9133 /* Builder */ = {
+			isa = PBXGroup;
+			children = (
+				A24B28742B934E4F004CA796 /* LaunchScreen.storyboard */,
+			);
+			path = Builder;
+			sourceTree = "<group>";
+		};
+		A25E8C5A2C580C77002E9133 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				A2C271EB2B6BBC25009E40C6 /* Assets.xcassets */,
+				A2C271F02B6BBC25009E40C6 /* Info.plist */,
+				A2C271DF2B6BBC23009E40C6 /* AppDelegate.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
 		A268CC5F2B71801E004A7DEA /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,7 +181,6 @@
 		A2C271D32B6BBC23009E40C6 = {
 			isa = PBXGroup;
 			children = (
-				A25E8C532C57DFA8002E9133 /* MapSettings.swift */,
 				A268CC5F2B71801E004A7DEA /* Fonts */,
 				A2C272122B6BBFB9009E40C6 /* .gitignore */,
 				A2C271DE2B6BBC23009E40C6 /* CatCafeCZ */,
@@ -144,23 +203,12 @@
 		A2C271DE2B6BBC23009E40C6 /* CatCafeCZ */ = {
 			isa = PBXGroup;
 			children = (
-				A2C271E32B6BBC23009E40C6 /* ViewController.swift */,
-				A2C272182B6BEA7D009E40C6 /* CellTableViewControllerForViewController.swift */,
-				A268CC672B73C1DD004A7DEA /* AddingNewPlace.swift */,
-				A268CC692B73ED16004A7DEA /* CellForAddingNewPlace.swift */,
-				A2C271EB2B6BBC25009E40C6 /* Assets.xcassets */,
-				A2C271F02B6BBC25009E40C6 /* Info.plist */,
-				A212B8AB2C431E830088129A /* MapViewController.swift */,
-				A268CC652B73AB06004A7DEA /* CafeModel.swift */,
-				A2C224622BC6D6760027A521 /* StoresManager.swift */,
-				A24B28742B934E4F004CA796 /* LaunchScreen.storyboard */,
-				A24B28842B978341004CA796 /* CustomCellImage.swift */,
-				A24B287E2B975F7A004CA796 /* CustomCellName.swift */,
-				A24B28802B976F5C004CA796 /* CustomCellLocation.swift */,
-				A24B28822B97749B004CA796 /* CustomCellPlace.swift */,
-				A24F95922C25CC1400FA5938 /* RatingControl.swift */,
-				A2C271DF2B6BBC23009E40C6 /* AppDelegate.swift */,
-				A25E630C2BCEB0E3006B2D0A /* Coordinator.swift */,
+				A25E8C552C580B27002E9133 /* Screens */,
+				A25E8C582C580B9A002E9133 /* Helpers */,
+				A25E8C572C580B71002E9133 /* Cells */,
+				A25E8C562C580B3D002E9133 /* Model */,
+				A25E8C5A2C580C77002E9133 /* Support */,
+				A25E8C592C580C23002E9133 /* Builder */,
 			);
 			path = CatCafeCZ;
 			sourceTree = "<group>";
@@ -504,7 +552,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4A2KG46AV7;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = CatCafeCZ/Info.plist;
+				INFOPLIST_FILE = CatCafeCZ/Support/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = EatHereInFuture;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_NSCameraUsageDescription = "$(PRODUCT_NAME) photo use";
@@ -539,7 +587,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4A2KG46AV7;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = CatCafeCZ/Info.plist;
+				INFOPLIST_FILE = CatCafeCZ/Support/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = EatHereInFuture;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_NSCameraUsageDescription = "$(PRODUCT_NAME) photo use";

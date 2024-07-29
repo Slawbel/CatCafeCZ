@@ -18,7 +18,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let annotationIdentifier = "annotationIdentifier"
     var activityIndicator: UIActivityIndicatorView?
     
-    // Declare locationManager property
     let locationManager = CLLocationManager()
 
     var previousLocation: CLLocation? {
